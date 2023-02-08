@@ -93,7 +93,8 @@ int get_input(std::string enter_text){
 //          : int ni - initial orbital
 //          : int nj - final orbital
 double get_energy(int Z, int ni, int nj){
-    return 13.6 * std::pow(Z,2) * (std::pow(nj,-2) - std::pow(ni,-2)); // eV
+    return 13.6 * std::pow(Z,2) * (std::pow(nj,-2) - std::pow(ni,-2)); // [eV]
+    // Note: include<cmath> is not necessery since I can use 1/(ni*ni) instead of std::pow(ni,-2)
 }
 
 // Ask user for energy conversion from eV to J
@@ -121,7 +122,6 @@ bool ask_for_conversion(){
 
 //=== main ===
 int main(){
-
     // eV to J conversion factor
     const double eV_to_J{1.60218e-19};
     // Declrate the unit of the energy
