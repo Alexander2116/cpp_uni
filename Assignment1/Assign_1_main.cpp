@@ -6,10 +6,11 @@
 ** Student ID:  10458000
 **
 **
-** Functions: ask_to_terminate(), get_input(string), get_energy(int, int, int), ask_for_conversion(), main()
+** Functions: ask_to_terminate(), get_input(string), get_energy(int, int, int), 
+**          : ask_for_conversion(), main()
 **
 ** Purpose: Enter 3 int values to calculate photon energies of electron transition (Bohr)
-**        : Ask for energy conversion J/eV
+**        : Ask for energy conversion eV/J
 **        : Validate input
 **
 ** Comments: This is a single-file program
@@ -32,10 +33,27 @@ void ask_to_terminate(){
     // User's input
     std::string _input;
 
+    // Ask user if he wants to leave the program [y] or repeat [n]
     std::cout << "Detected incorrect input. Do you wish to exit the program? [y/n] ";
     std::cin >> _input;
-    if(_input == "Y" || _input == "y"){
-        exit(0);
+
+    // 
+    bool _continue = true;
+    // Validate input
+    while(_continue){
+        if(_input == "Y" || _input == "y"){
+            exit(0);
+        }
+        else if(_input == "N" || _input == "n"){
+            _continue = false;
+        }
+        else{
+            std::cout << "SORRY, I do not understand what you want to do" << std::endl;
+            std::cout << "Do you wish to exit the program? [y/n] ";
+            std::cin.clear();
+            std::cin.ignore();
+            std::cin >> _input;
+        }
     }
 }
 
@@ -62,6 +80,7 @@ int get_input(std::string enter_text){
             // Wrong data type (i.e. the input is not an integer, can be double, string (mix of digits and characters))
             else{
                 std::cout << "Input was invalid, enter the POSITIVE value in the correct (integer) format" << std::endl;
+                std::cout << _input << std::endl;
                 // Ask for program termination 
                 ask_to_terminate();
                 // Clear and ignore incorrect input (not integer or not positive integer)
@@ -71,9 +90,10 @@ int get_input(std::string enter_text){
                 std::cin >> _input;
             }
         }
-        // Needed when input cannot be changed to integer (f.e. (int)"aaa" is an error), then run catch
+        // Needed when input cannot be changed to integer (f.e. (int)"aaa" is an error) 
+        // OR when input value is too big to be stored as a int, then run catch
         catch(...){
-            std::cout << "Input was invalid, enter the POSITIVE value in the correct (integer) format"<< std::endl;
+            std::cout << "Input was invalid (value may be too big). Enter the POSITIVE value in the correct (integer) format"<< std::endl;
             // Ask for program termination 
             ask_to_terminate();
             // Clear and ignore incorrect input (not integer or not positive integer)
@@ -130,6 +150,18 @@ int main(){
     double energy;
     // Z - number of protons, ni - initial orbital, nj - final orbital
     int Z, ni, nj;
+
+    // Welcome text
+    std::string welcome_text = R"(This program will calculate the emission/absorption energy of a photon for a electron transition 
+    from the initial orbit to the final orbit. User will be asked to provide: 
+    1) Number of protons in an atom 
+    2) Initial orbital 
+    3) Final orbital 
+    4) Energy unit (eV/J) 
+    Each input will be validated and each incorrect input will run a request asking if the user
+    wants to continue (repeat the last unsuccessful procedure) or exit the program.)";
+
+    std::cout << welcome_text << std::endl << std::endl;
 
     // Get data from the user
     Z = get_input("Enter the number of protons in atom (integer): ");
