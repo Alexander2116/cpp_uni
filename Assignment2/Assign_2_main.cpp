@@ -140,6 +140,7 @@ double calculate_std(std::vector<double> ddata){
 
 // sorting algorithim
 // order = true => sorting ascending, order = false => sorting descending
+// it sorted by ASCII character value, i.e "MP" will be higher than "Ma".
 void sort_vector(std::vector<std::string> *vector_input, bool order){
     std::vector <std::string>::iterator vector_begin{vector_input->begin()};
     std::vector <std::string>::iterator vector_end{vector_input->end()};
@@ -365,6 +366,7 @@ int main(){
     std::cout << std::endl; // extra space
 
     // Ask if user want to sort the data
+    // CAREFULL it sorts by ASCII char values: i.e A(65) != a(97). Therefore "MP" will be higher than "Ma" in ascending order.
     ask_sort = do_you_want_to_sort();
     if(ask_sort == 0){
         full_course_name = combine_vectors(course_id, course_name, grade);
