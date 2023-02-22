@@ -236,7 +236,7 @@ bool ask_how_to_sort(){
     return true; // Must be placed here to avoid "warning: control reaches end of non-void function"
 }
 
-// Combines two vectors (<int> and <string>) assuming they both have the same length
+// Combines two vectors (<int, string>; <string, int>; <double>) assuming they both have the same length
 // **** FUNCTION OVERLOADING
 std::vector<std::string> combine_vectors(std::vector<int> v1, std::vector<std::string> v2, std::vector<double> v3){
     std::vector<std::string> fv;
