@@ -22,7 +22,6 @@
 #include<iostream>
 #include<cmath>
 #include<string> 
-#include<conio.h>
 #include<fstream>
 #include<vector>
 #include<algorithm>
@@ -292,7 +291,9 @@ char ask_to_select_year(){
         if(input == "y" || input == "Y"){
             std::cout << "Please select a year [1|2|3|4] " << std::endl;
             std::cin >> input;
+            // *** Inner loop
             while(true){
+                // Switch case does not work on string, I could have just use stoi(input), but it would require additional validation (i.e if user enters "1year")
                 if(input == "1"){
                     year = '1';
                     break;
@@ -316,7 +317,7 @@ char ask_to_select_year(){
                         std::cin.ignore();
                         std::cin >> input;
                 }
-                
+                // *** End Inner loop
             }
             validation = false;
         }
@@ -343,11 +344,11 @@ char ask_to_select_year(){
 int main(){
     // Allocate variables
     std::string path = ".\\courselist.dat";
-    std::vector<std::string> data;
+    std::vector<std::string> data; // All data from the file. Each item = line from the file
     std::vector<double> grade; 
     std::vector<int> course_id; 
     std::vector<std::string> course_name;
-    std::vector<std::string> full_course_name;
+    std::vector<std::string> full_course_name; // course id + course name (or name + id)
     int ask_sort;
     bool how_to_sort;
 
@@ -402,6 +403,7 @@ int main(){
 
     // End program
     std::cout << "Enter any key to exit";
-    getch();
+    std::cin.ignore();
+    std::cin.get();
     return 0;
 }
