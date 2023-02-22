@@ -238,21 +238,21 @@ bool ask_how_to_sort(){
 
 // Combines two vectors (<int> and <string>) assuming they both have the same length
 // **** FUNCTION OVERLOADING
-std::vector<std::string> combine_vectors(std::vector<int> v1, std::vector<std::string> v2){
+std::vector<std::string> combine_vectors(std::vector<int> v1, std::vector<std::string> v2, std::vector<double> v3){
     std::vector<std::string> fv;
     std::stringstream course;
     for(int i=0; i < v1.size(); i++){
-        course << v1[i] << " " << v2[i];
+        course << v1[i] << " " << v2[i] << " - Grade: " << v3[i];
         fv.push_back(course.str());
         course.str("");
     }
     return fv;
 }
-std::vector<std::string> combine_vectors(std::vector<std::string> v1, std::vector<int> v2){
+std::vector<std::string> combine_vectors(std::vector<std::string> v1, std::vector<int> v2, std::vector<double> v3){
     std::vector<std::string> fv;
     std::stringstream course;
     for(int i=0; i < v1.size(); i++){
-        course << v1[i] << " " << v2[i];
+        course << v1[i] << " " << v2[i] << " - Grade: " << v3[i];
         fv.push_back(course.str());
         course.str("");
     }
@@ -271,7 +271,7 @@ std::vector<std::string> select_year(std::vector<std::string> v1, char year){
         if(temp_str.at(0) == year){
             fv.push_back(temp_str);
         }
-        else if(temp_str.find(delim) == (temp_str.size() - 6)){
+        else if(temp_str.find(delim) == (temp_str.find(" - ")-6)){
             fv.push_back(temp_str);
         }
     }
@@ -366,19 +366,19 @@ int main(){
     // Ask if user want to sort the data
     ask_sort = do_you_want_to_sort();
     if(ask_sort == 0){
-        full_course_name = combine_vectors(course_id,course_name);
-        // Do nothing, user doesn't want to
+        full_course_name = combine_vectors(course_id, course_name, grade);
+        // Do nothing, user doesn't want to sort
     }
     else if(ask_sort == 1){
         // sort by course id
         how_to_sort = ask_how_to_sort();
-        full_course_name = combine_vectors(course_id,course_name);
+        full_course_name = combine_vectors(course_id, course_name, grade);
         sort_vector(&full_course_name, how_to_sort);
     }
     else{
         // sort by course name
         how_to_sort = ask_how_to_sort();
-        full_course_name = combine_vectors(course_name, course_id);
+        full_course_name = combine_vectors(course_name, course_id, grade);
         sort_vector(&full_course_name, how_to_sort);
     }
 
