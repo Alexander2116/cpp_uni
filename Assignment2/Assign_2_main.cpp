@@ -260,6 +260,7 @@ std::vector<std::string> combine_vectors(std::vector<std::string> v1, std::vecto
 }
 // ****END FUNCTION OVERLOADING
 
+// Find all courses in a given year
 std::vector<std::string> select_year(std::vector<std::string> v1, char year){
     std::vector<std::string> fv;
     std::string delim{" "};
@@ -344,7 +345,7 @@ char ask_to_select_year(){
 //=== main ===
 int main(){
     // Allocate variables
-    std::string path = ".\\courselist.dat";
+    std::string path{".\\courselist.dat"};
     std::vector<std::string> data; // All data from the file. Each item = line from the file
     std::vector<double> grade; 
     std::vector<int> course_id; 
@@ -359,6 +360,9 @@ int main(){
     // Load data and separate into 3 vectors 
     data = load_data(path);
     separate_string(data, &grade, &course_id, &course_name);
+
+    // Clear unused vectors to save memory
+    data.clear(); 
 
     // mean and std
     std::cout << "Mean of the grades: " << calculate_mean(grade) << std::endl;
@@ -385,6 +389,11 @@ int main(){
         sort_vector(&full_course_name, how_to_sort);
     }
 
+    // Clear unused vectors to save memory
+    grade.clear(); 
+    course_id.clear(); 
+    course_name.clear();
+
     // Show courses
     std::cout << "List of courses: " << std::endl;
     for(int i = 0; i < full_course_name.size(); i++){
@@ -402,6 +411,9 @@ int main(){
         }
         std::cout << std::endl; // extra space
     }
+
+    // Clear vector
+    full_course_name.clear();
 
     // End program
     std::cout << "Enter any key to exit";
