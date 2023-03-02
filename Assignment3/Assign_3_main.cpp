@@ -40,6 +40,7 @@ class galaxy
     double stellar_mass_fraction; // f = M/m_tot
 
     std::vector<galaxy> sattelite_galaxy;
+    std::vector<galaxy> empty_val; // empty vector, used only to return if inserted i-th item of sattelite_galaxy is out of size.
 
     //const solar_mass = 1.989* std::pow(10,30); // kg
 
@@ -69,31 +70,40 @@ class galaxy
       return m_tot * stellar_mass_fraction;
      }
     // Change galaxy's Hubble type
-    void change_type(std::string new_type) { }
+    void change_type(std::string new_type) { 
+        hubble_type = new_type;
+    }
     // Prototype for function to print out an object's data
-    void print_data();
+    void print_data(){
+      std::cout << "Hubble type: " << hubble_type << ";  " << "redshift: " << redshift << ";  " << "total mass: " << m_tot << std::endl;
+    };
 
     // Add satellite galaxy
-    // I assume satellite galaxy can be described with the same parameters and a normal galaxy
+    // I assume satellite galaxy can be described with the same parameters as a normal galaxy
     void add_satellite_galaxy(std::string hub_type, double red_shift, double mass){
       galaxy sat_gal(hub_type, red_shift, mass);
       sattelite_galaxy.push_back(sat_gal);
     }
-    void show_satelilite_galaxies(){
+    void show_sattelite_galaxies(){
       for(int i = 0; i < sattelite_galaxy.size(); i++){
-        std::cout << i << ": " << sattelite_galaxy[i].get_hubble_type() << std::endl;
+        std::cout << i << ": ";
+        sattelite_galaxy[i].print_data();
       }
     }
     // Find a sattelite galaxy by putting a hubble_type
-    std::vector<galaxy> find_sattelite_galaxy(int i){
+    galaxy* find_sattelite_galaxy(int i){
       // Linear search
       if(i <= sattelite_galaxy.size()){
-        return sattelite_galaxy[i];
+        return &sattelite_galaxy[i];
       }
       else{
-        galaxy no_gal;
+        // Just to make sure there is only 1 element in this vector
+        if(empty_val.empty()){
+          empty_val.push_back(galaxy("a",1,1));
+        }
+        // Could cause memory issues if called multiple times... Please don't use on purpose
         std::cout << "This object is not present" << std::endl;
-        return no_gal
+        return &empty_val[0];
       }
     }
 
@@ -104,23 +114,28 @@ class galaxy
 
 //=== main ===
 int main(){
-  // Example using default constructor
-  galaxy g1("test", 2,2);
+    // Example using default constructor
+    galaxy g1("Irr", 2,2);
 
-  g1.add_satellite_galaxy("test1", 2,2);
-  g1.add_satellite_galaxy("test2", 2,2);
-  g1.show_satelilite_galaxies();
-  std::cout << g1.get_hubble_type() << std::endl;
-  // Example using parameterised constructor
+    std::cout << g1.get_hubble_type() << std::endl;
+    // Example using parameterised constructor
 
-  // print out data
+    // print out data
 
-  // Get and print out stellar mass
+    // Get and print out stellar mass
 
-  // Change Hubble type from Irr to S0
+    // Change Hubble type from Irr to S0
+    g1.change_type("S0");
 
-  // Add satellite galaxies
-	
+    // Add satellite galaxies
+    g1.add_satellite_galaxy("S1", 4, pow(10,7));
+    g1.add_satellite_galaxy("S2", 5, pow(10,8));
+    g1.show_sattelite_galaxies();
+    std::cout << "Change type of the 1st (0th) sattelite galaxy." << std::endl;
+    // Change satellite galaxy type
+    g1.find_sattelite_galaxy(1)->change_type("Irr");
+    g1.show_sattelite_galaxies();
+  
     // End program
     std::cout << "Enter any key to exit";
     std::cin.ignore();
