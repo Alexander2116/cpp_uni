@@ -101,7 +101,7 @@ public:
 		if(m._rows == _rows && m._columns == _columns){
 			double *temp;
 			temp = new double[_columns*_rows];
-			for(int i=0; i<_rows+_columns; i++){
+			for(int i=0; i<_rows*_columns; i++){
 				temp[i] = m._matrix_data[i] + _matrix_data[i];
 			}
 			return Matrix(temp, _rows,_columns);
@@ -171,8 +171,7 @@ public:
 
 // Functions to overload (arithmetic operations):
 Matrix operator+(const Matrix& m1, const Matrix& m2){
-	Matrix temp;
-	return temp;
+	return m1+m2;
 }
 Matrix operator-(const Matrix& m1, const Matrix& m2){
 	Matrix temp;
@@ -208,8 +207,8 @@ int main(){
 	Matrix n = Matrix(p,3,3);
 	n.show();
 	Matrix mm;
-	mm = n*n;
-	//mm = n^2;
+	//mm = n*n;
+	mm = n+n;
 	mm.show();
 	std::cout << "Get: ";
 	std::cin.get();
