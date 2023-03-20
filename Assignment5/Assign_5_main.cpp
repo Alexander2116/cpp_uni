@@ -104,7 +104,7 @@ public:
 			for(int i=0; i<_rows*_columns; i++){
 				temp[i] = m._matrix_data[i] + _matrix_data[i];
 			}
-			return Matrix(temp, _rows,_columns);
+			return Matrix(temp, _rows, _columns);
 		}
 		else{
 			// Cannot add these matrices
@@ -113,8 +113,18 @@ public:
 	}
 
 	Matrix operator-(const Matrix& m){
-		Matrix result_m;
-		return result_m;
+		if(m._rows == _rows && m._columns == _columns){
+			double *temp;
+			temp = new double[_columns*_rows];
+			for(int i=0; i<_rows*_columns; i++){
+				temp[i] = _matrix_data[i] - m._matrix_data[i];
+			}
+			return Matrix(temp, _rows, _columns);
+		}
+		else{
+			// Cannot add these matrices
+			exit(1);
+		}
 	}
 	/* Let a11 be a new matrix (multiplication of M1 and M2) then a11 = sum M1_(1i)*M2_(i1)
 	a12 = sum M1_(1i)*M2(i2)... a21 = sum M1_(2i)*M2_(i1)
@@ -174,8 +184,7 @@ Matrix operator+(const Matrix& m1, const Matrix& m2){
 	return m1+m2;
 }
 Matrix operator-(const Matrix& m1, const Matrix& m2){
-	Matrix temp;
-	return temp;
+	return m1-m2;
 }
 Matrix operator*(const Matrix& m1, const Matrix& m2){
 	return m1*m2;
@@ -208,9 +217,8 @@ int main(){
 	n.show();
 	Matrix mm;
 	//mm = n*n;
-	mm = n+n;
+	mm = n-n;
 	mm.show();
-	std::cout << "Get: ";
-	std::cin.get();
+
     return 0;
 }
