@@ -64,7 +64,7 @@ public:
 	// Move constructor
 
 	// Destructor
-	~Matrix(){delete[] _matrix_data; std::cout << "Destructor was called" << std::endl;}
+	~Matrix(){/*delete[] _matrix_data;*/ std::cout << "Destructor was called" << std::endl;}
 	
 	// Access functions
 	int get_rows() const{
@@ -116,9 +116,38 @@ public:
 		Matrix result_m;
 		return result_m;
 	}
+	/* Let a11 be a new matrix (multiplication of M1 and M2) then a11 = sum M1_(1i)*M2_(i1)
+	a12 = sum M1_(1i)*M2(i2)... a21 = sum M1_(2i)*M2_(i1)
+	So it can be generalized by introducing i, j, k increments
+	i goes for new Matrix row length (from 0 to length-1)
+	j goes for new Matrix column length (from 0 to length-1)
+	k goes for old Matrix column/row length (from 0 to length-1)
+	a_ij = sum(k) M1_(jk)*M2_(ki)
+	Position of a_ij is given by a position in 1D array
+	a_11 = [0], a_12 = [1], ... a_21 = [columns], a_22 = [columns+1].. a_ij = [i*columns + j]
+	*/
 	Matrix operator*(const Matrix& m){
-		double u[9] = {5,5,5,6,6,6,4,4,4};
-		Matrix result_m = Matrix(u,3,3);
+		// This is a array for the NEW Matrix (the result of multiplication)
+		double *temp;
+		temp = new double[m._rows * _columns];
+		Matrix result_m;
+		if(_rows == m._columns){
+			// Go for i-th row of the New Matrix
+			for(int i = 0; i<_rows; i++){
+				// Go for j-th columns
+				for(int j = 0; j<m._columns; j++){
+					// Do the rows*columns summation
+					for(int k = 0; k<m._columns; k++){
+						temp[i*m._columns+j] += _matrix_data[i*_columns + k] * m._matrix_data[j + k*m._columns];
+					}
+				}
+			}
+			result_m = Matrix(temp, m._rows, _columns);
+		}
+		else{
+			std::cout << "cannot be multiplied" << std::endl;
+			exit(1);
+		}
 		return result_m;
 	}
 	Matrix operator^(int n){
@@ -140,7 +169,7 @@ public:
 	}
 };
 
-// Functions to overload (arthmetic operations):
+// Functions to overload (arithmetic operations):
 Matrix operator+(const Matrix& m1, const Matrix& m2){
 	Matrix temp;
 	return temp;
@@ -150,8 +179,7 @@ Matrix operator-(const Matrix& m1, const Matrix& m2){
 	return temp;
 }
 Matrix operator*(const Matrix& m1, const Matrix& m2){
-	Matrix temp;
-	return temp;
+	return m1*m2;
 }
 Matrix operator*(const Matrix& m, double a){
 	Matrix temp;
@@ -180,7 +208,10 @@ int main(){
 	Matrix n = Matrix(p,3,3);
 	n.show();
 	Matrix mm;
-	mm = n^2;
-	m.show();
+	mm = n*n;
+	//mm = n^2;
+	mm.show();
+	std::cout << "Get: ";
+	std::cin.get();
     return 0;
 }
