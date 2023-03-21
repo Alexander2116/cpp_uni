@@ -227,21 +227,21 @@ public:
 	Matrix operator*(const Matrix &m){
 		// This is a array for the NEW Matrix (the result of multiplication)
 		double *temp;
-		temp = new double[m._rows * _columns];
+		temp = new double[_rows * m._columns];
 		Matrix result_m;
-		if(_rows == m._columns){
+		if(m._rows == _columns){
 			// Go for i-th row of the New Matrix
 			for(int i = 0; i<_rows; i++){
 				// Go for j-th columns
 				for(int j = 0; j<m._columns; j++){
 					// Do the rows*columns summation
-					for(int k = 0; k<m._columns; k++){
+					for(int k = 0; k<_columns; k++){
 						temp[i*m._columns+j] += _matrix_data[i*_columns + k] * m._matrix_data[j + k*m._columns];
 						// Could also use index to do that, but I like it more like this
 					}
 				}
 			}
-			result_m = Matrix(temp, m._rows, _columns);
+			result_m = Matrix(temp, _rows, m._columns);
 		}
 		else{
 			std::cout << "cannot be multiplied" << std::endl;
@@ -292,18 +292,28 @@ Matrix operator*(double a, const Matrix &m){
 
 //=== main ===
 int main(){
-	double p[9] = 
-		{1,1,1,
-		2,2,2,
-		3,3,3};
-	Matrix n = Matrix(p,3,3);
-	n.show();
-	Matrix mm = n.crop(2,2);;
-	//mm = n*n;
-	mm.show();
-	mm^3;
-	//Matrix hh(mm^3);
-	//hh.show();
+	//  The arrays of required matrixes, placed like the matrix should look like
+	double a1[9] = 
+		{1,2,3,
+		9,8,7,
+		4,2,6};
+	double a2[9] = 
+		{5,5,4,
+		1,2,3,
+		6,9,8};
+	double a3[6] = 
+		{2,4,1,
+		2,5,6};
+
+	Matrix A(a1,3,3);
+	Matrix B(a2,3,3);
+	Matrix C(a3,2,3);
+
+	Matrix temp;
+	temp = C*B;
+	temp.show();
+	temp = B*C;
+	temp.show();
 
     return 0;
 }
