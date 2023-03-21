@@ -150,8 +150,29 @@ public:
 	}
 	
 	// Determinant Expansion by Minors - recursion alg.
+	// https://mathworld.wolfram.com/DeterminantExpansionbyMinors.html
 	double determinant(){
-		return 0;
+		// if square and 2x2
+		if(_rows*_columns == 1){return _matrix_data[0];}
+		if(_rows == _columns && _rows == 2){
+			return _matrix_data[index(1,1)]*_matrix_data[index(2,2)] - _matrix_data[index(1,2)]*_matrix_data[index(2,1)];
+		}
+		// Could also do a manual if statement for 3x3
+		// if(_row == _columns && _rows == 3){}
+		// Actual code using recursion
+		if(_rows == _columns){
+			double det{0};
+			Matrix temp_m = Matrix(_matrix_data, _rows, _columns);
+			// Fixed row, row = 1 (first row), just change the column
+			for(int i = 1; i <= _columns; i++){
+				det += std::pow(-1,1+i)*_matrix_data[index(1,i)]*temp_m.crop(1,i).determinant();
+			}
+			return det;
+		}
+		else{
+			std::cout << "Cannot calculate determinant for this matrix, returning 0." << std::endl;
+			return 0;
+		}
 	}
 
 	// For easy return of M_(mn) item of the matrix M
@@ -251,9 +272,9 @@ public:
 	}
 	Matrix operator^(int n){
 		if(n>0 && _matrix_data != nullptr){
-			
 			Matrix result_matrix = Matrix(_matrix_data,_rows,_columns);
 			Matrix original = Matrix(_matrix_data,_rows,_columns);
+			// Do multiplication by the original matrix n-1 times
 			for(int i = 1; i < n; i++){
 				result_matrix = result_matrix*original;
 			}
@@ -304,16 +325,22 @@ int main(){
 	double a3[6] = 
 		{2,4,1,
 		2,5,6};
-
+	double a4[16] =
+		{1,3,3,5,
+		4,1,4,5,
+		3,3,1,5,
+		5,5,4,5};
 	Matrix A(a1,3,3);
 	Matrix B(a2,3,3);
 	Matrix C(a3,2,3);
+	Matrix D(a4,4,4);
 
 	Matrix temp;
 	temp = C*B;
 	temp.show();
-	temp = B*C;
-	temp.show();
+	std::cout << D.determinant();
+	/*temp = B*C;
+	temp.show();*/
 
     return 0;
 }
