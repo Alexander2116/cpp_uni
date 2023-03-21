@@ -57,17 +57,40 @@ public:
 		}
 		_rows = m;
 		_columns = n;
+		// Alternatively; _matrix_data = p;
 		_matrix_data = new double[m*n];
 		for(int i=0; i < m*n; i++){
 			_matrix_data[i] = p[i];
 		}
 	}
+	
 	// Copy constructor
-
+	Matrix(const Matrix &m){
+		// Just copy the data
+		_rows = m._rows;
+		_columns = m._columns;
+		_matrix_data = m._matrix_data;
+	}
 	// Move constructor
-
+	Matrix(Matrix &&m){
+		// Copy values
+		_rows = m._rows;
+		_columns = m._columns;
+		_matrix_data = m._matrix_data;
+		// Zero the giver matrix
+		m._rows = 0;
+		m._columns = 0;
+		m._matrix_data = nullptr;
+	}
 	// Destructor
-	~Matrix(){/*delete[] _matrix_data;*/ std::cout << "Destructor was called" << std::endl;}
+	~Matrix(){
+		// Assigning NULL first is necessary to avoid "Exception: unknown signal"
+		// Possible that it tries to remove uninitialized object but in default _matarix_data=nullptr, STRANGE
+		_matrix_data = NULL;
+		delete[] _matrix_data;
+		// Uncomment if you want to make sure that the object is deconstructed (I like my terminal clean)
+		//std::cout << "Destructor was called" << std::endl;
+	}
 	
 	// Access functions
 	int get_rows() const{
@@ -126,7 +149,7 @@ public:
 		return Matrix(temp, new_m, new_n);
 	}
 	
-	// Determinant Expansion by Minors
+	// Determinant Expansion by Minors - recursion alg.
 	double determinant(){
 		return 0;
 	}
@@ -137,7 +160,8 @@ public:
 			std::cout << "Index out of range" << std::endl;
 			exit(1);
 		}
-		return _matrix_data[index(m,n)];}
+		return _matrix_data[index(m,n)];
+	}
 
 	// To return m-th element of the array
 	double& operator[](uint32_t m){
@@ -145,9 +169,22 @@ public:
 			std::cout << "Index out of range" << std::endl;
 			exit(1);
 		}
-		return _matrix_data[m];}
+		return _matrix_data[m];
+	}
 	
-	Matrix operator+(const Matrix& m){
+	Matrix operator=(Matrix m){
+		// No need to move when the given input is exactly the same object 
+		if (this == &m) {
+        	return *this;
+    	}
+		_rows = m._rows;
+		_columns = m._columns;
+		_matrix_data = nullptr;
+		_matrix_data = m._matrix_data;
+		return *this;
+	}
+
+	Matrix operator+(const Matrix &m){
 		if(m._rows == _rows && m._columns == _columns){
 			double *temp;
 			temp = new double[_columns*_rows];
@@ -163,7 +200,7 @@ public:
 		}
 	}
 
-	Matrix operator-(const Matrix& m){
+	Matrix operator-(const Matrix &m){
 		if(m._rows == _rows && m._columns == _columns){
 			double *temp;
 			temp = new double[_columns*_rows];
@@ -187,7 +224,7 @@ public:
 	Position of a_ij is given by a position in 1D array
 	a_11 = [0], a_12 = [1], ... a_21 = [columns], a_22 = [columns+1].. a_ij = [i*columns + j]
 	*/
-	Matrix operator*(const Matrix& m){
+	Matrix operator*(const Matrix &m){
 		// This is a array for the NEW Matrix (the result of multiplication)
 		double *temp;
 		temp = new double[m._rows * _columns];
@@ -213,11 +250,10 @@ public:
 		return result_m;
 	}
 	Matrix operator^(int n){
-		if(n>0){
+		if(n>0 && _matrix_data != nullptr){
 			
 			Matrix result_matrix = Matrix(_matrix_data,_rows,_columns);
 			Matrix original = Matrix(_matrix_data,_rows,_columns);
-
 			for(int i = 1; i < n; i++){
 				result_matrix = result_matrix*original;
 			}
@@ -232,20 +268,20 @@ public:
 };
 
 // Functions to overload (arithmetic operations):
-Matrix operator+(const Matrix& m1, const Matrix& m2){
+Matrix operator+(const Matrix &m1, const Matrix &m2){
 	return m1+m2;
 }
-Matrix operator-(const Matrix& m1, const Matrix& m2){
+Matrix operator-(const Matrix &m1, const Matrix &m2){
 	return m1-m2;
 }
-Matrix operator*(const Matrix& m1, const Matrix& m2){
+Matrix operator*(const Matrix &m1, const Matrix &m2){
 	return m1*m2;
 }
-Matrix operator*(const Matrix& m, double a){
+Matrix operator*(const Matrix &m, double a){
 	Matrix temp;
 	return temp;
 }
-Matrix operator*(double a, const Matrix& m){
+Matrix operator*(double a, const Matrix &m){
 	Matrix temp;
 	return temp;
 }
@@ -262,10 +298,12 @@ int main(){
 		3,3,3};
 	Matrix n = Matrix(p,3,3);
 	n.show();
-	Matrix mm;
+	Matrix mm = n.crop(2,2);;
 	//mm = n*n;
-	mm = n.crop(2,2);
 	mm.show();
+	mm^3;
+	//Matrix hh(mm^3);
+	//hh.show();
 
     return 0;
 }
