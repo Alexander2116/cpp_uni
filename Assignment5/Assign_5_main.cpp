@@ -64,7 +64,6 @@ public:
 			_matrix_data[i] = p[i];
 		}
 	}
-	
 	// Copy constructor
 	Matrix(const Matrix &m){
 		// Just copy the data
@@ -73,16 +72,14 @@ public:
 		_matrix_data = m._matrix_data;
 	}
 	// Move constructor
-	Matrix(Matrix &&m){
-		// Copy values
-		_rows = m._rows;
-		_columns = m._columns;
-		_matrix_data = m._matrix_data;
-		// Zero the giver matrix
-		m._rows = 0;
-		m._columns = 0;
-		m._matrix_data = nullptr;
-	}
+	Matrix(Matrix &&m):
+		_rows(std::move(m._rows)),
+		_columns(std::move(m._columns)),
+		_matrix_data(std::move(m._matrix_data))
+	{	
+		//std::cout << "Move constructor called" << std::endl;
+		m._matrix_data = NULL;
+	}	
 	// Destructor
 	~Matrix(){
 		// Assigning NULL first is necessary to avoid "Exception: unknown signal"
@@ -96,6 +93,7 @@ public:
 	// Access functions
 	int get_rows() const {return _rows;} // Return number of rows
 	int get_cols() const {return _columns;} // Return number of columns
+
 	int index(uint32_t m, uint32_t n) const{
 		if(m>_rows || n>_columns){
 			std::cout << "Index out of range" << std::endl;
@@ -190,7 +188,8 @@ public:
 		return _matrix_data[m];
 	}
 	
-	Matrix operator=(Matrix m){
+	// Copy assignment operator
+	Matrix& operator=(Matrix &m) noexcept{
 		// No need to move when the given input is exactly the same object 
 		if (this == &m) {
         	return *this;
@@ -199,6 +198,22 @@ public:
 		_columns = m._columns;
 		_matrix_data = nullptr;
 		_matrix_data = m._matrix_data;
+		return *this;
+	}
+
+	// Move assignment operator
+	Matrix& operator=(Matrix &&m) noexcept{
+		// No need to move when the given input is exactly the same object 
+		if (this == &m) {
+        	return *this;
+    	}
+		_rows = m._rows;
+		_columns = m._columns;
+		_matrix_data = nullptr;
+		_matrix_data = m._matrix_data;
+		m._rows = 0;
+		m._columns = 0;
+		m._matrix_data = nullptr;
 		return *this;
 	}
 
@@ -232,6 +247,7 @@ public:
 			exit(1);
 		}
 	}
+
 	/* Let a11 be a new matrix (multiplication of M1 and M2) then a11 = sum M1_(1i)*M2_(i1)
 	a12 = sum M1_(1i)*M2(i2)... a21 = sum M1_(2i)*M2_(i1)
 	So it can be generalized by introducing i, j, k increments
@@ -268,6 +284,7 @@ public:
 		}
 		return result_m;
 	}
+
 	Matrix operator*(const double &a){
 		// This is a array for the NEW Matrix (the result of multiplication)
 		double *temp;
@@ -280,6 +297,7 @@ public:
 		result_m = Matrix(temp, _rows, _columns);
 		return result_m;
 	}
+
 	Matrix operator^(int n){
 		if(n>0 && _matrix_data != nullptr){
 			Matrix result_matrix = Matrix(_matrix_data,_rows,_columns);
@@ -356,7 +374,7 @@ int main(){
 		1,2,3,
 		6,9,8};
 	double a3[6] = 
-		{2,4,1,
+		{3,4,1,
 		2,5,6};
 
 	Matrix A(a1,3,3);
@@ -385,10 +403,18 @@ int main(){
 	std::cout << BC << std::endl;
 
 	// Determinants
-	std::cout << "det(A)= " << A.determinant() << std::endl;
-	std::cout << "det(B)= " << B.determinant() << std::endl;
+	std::cout << "det(A)= " << A.determinant() << std::endl; // results should be -60 (online matrix calculator)
+	std::cout << "det(B)= " << B.determinant() << std::endl << std::endl; // -17
 
-	//
+	// copy A
+	Matrix cA(A);
+	// modify A
+	A = A^2;
+	// Output copy and modified A
+	std::cout << "Copied A:" << cA << std::endl;
+	std::cout << "Modified A:" << A << std::endl;
+
+	// move A
 
     return 0;
 }
