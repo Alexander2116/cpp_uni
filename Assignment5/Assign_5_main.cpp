@@ -1,21 +1,24 @@
 /*============================================================
-** UTF-8
+** UTF-8, Win32
 **
 ** Assignment 5  (Deadline: 24/03/2023)
 ** Name:  Aleksander Kedziora
 ** Student ID:  10458000
 **
 **
-** Purpose: Creating complex numbers using a class
+** Purpose: Creating a matrix with functionalities like calculating determinant, multiplying, cropping (removing a column and a row)
 **        : Creating overloading function for arithmetic operation AND ostream(<<), istream(>>)
 **
-** Classes: complex(double, double)
+** Classes: Matrix(double, double) / Matrix(array, double, double)
 **
-** Comments: Not protected from division by 0
-**         : Using uint32_t (or size_t) and putting negative value mean value = size(uint32_t)-value.
+** Comments : Not protected from division by 0
+**          : Using uint32_t (or size_t) and putting negative value means value = size(uint32_t)-value.
 				so user can put negative value but it will be turned into some large (2^32 - 1 - VALUE) positive value
+			: User can creat its own matrix
+			: Determinant is calculated using Expansion by Minors algorithm (a recursive alg.)
+			: Multiplication and Determinant calculations were tested and compered with https://matrix.reshish.com/determinant.php
 **
-** Date:  17 March 2023
+** Date:  22 March 2023
 **
 ===========================================================*/
 
@@ -77,7 +80,7 @@ public:
 		_columns(std::move(m._columns)),
 		_matrix_data(std::move(m._matrix_data))
 	{	
-		//std::cout << "Move constructor called" << std::endl;
+		std::cout << "Move constructor called" << std::endl;
 		m._matrix_data = NULL;
 	}	
 	// Destructor
@@ -94,6 +97,7 @@ public:
 	int get_rows() const {return _rows;} // Return number of rows
 	int get_cols() const {return _columns;} // Return number of columns
 
+	// Return array's position of the value by putting its matrix coordinates 
 	int index(uint32_t m, uint32_t n) const{
 		if(m>_rows || n>_columns){
 			std::cout << "Index out of range" << std::endl;
@@ -101,7 +105,7 @@ public:
 		}
 		return (n-1)+(m-1)*_columns;
 	} // Return position in array of element (m,n)
-	
+	// Display the data in a nice way
 	void show(){
 		for(int i=0; i<_rows; i++){
 			std::cout<< "| ";
@@ -144,8 +148,8 @@ public:
 		return Matrix(temp, new_m, new_n);
 	}
 	
-	// Determinant Expansion by Minors - recursion alg.
-	// https://mathworld.wolfram.com/DeterminantExpansionbyMinors.html
+	/* Determinant Expansion by Minors - recursion alg.
+		https://mathworld.wolfram.com/DeterminantExpansionbyMinors.html */
 	double determinant(){
 		// if square and 2x2
 		if(_rows*_columns == 1){return _matrix_data[0];}
@@ -407,14 +411,23 @@ int main(){
 	std::cout << "det(B)= " << B.determinant() << std::endl << std::endl; // -17
 
 	// copy A
-	Matrix cA(A);
+	Matrix cA;
+	cA = A;
 	// modify A
 	A = A^2;
+	// A(1,1) = 8; // This also works 
 	// Output copy and modified A
 	std::cout << "Copied A:" << cA << std::endl;
 	std::cout << "Modified A:" << A << std::endl;
 
-	// move A
+
+	// Create your own matrix
+	Matrix Neo;
+	std::cout << "Create your own matrix!" << std::endl;
+	std::cin >> Neo;
+	std::cout << "Your created matrix is: " << Neo;
+
+	std::cout << "The program has ended";
 
     return 0;
 }
