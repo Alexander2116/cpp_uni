@@ -94,12 +94,8 @@ public:
 	}
 	
 	// Access functions
-	int get_rows() const{
-		return _rows;
-	} // Return number of rows
-	int get_cols() const{
-		return _columns;
-	} // Return number of columns
+	int get_rows() const {return _rows;} // Return number of rows
+	int get_cols() const {return _columns;} // Return number of columns
 	int index(uint32_t m, uint32_t n) const{
 		if(m>_rows || n>_columns){
 			std::cout << "Index out of range" << std::endl;
@@ -349,6 +345,7 @@ std::istream &operator>>(std::istream &is, Matrix &m){
 
 //=== main ===
 int main(){
+	// --- Test Data ---
 	//  The arrays of required matrixes, placed like the matrix should look like
 	double a1[9] = 
 		{1,2,3,
@@ -361,16 +358,37 @@ int main(){
 	double a3[6] = 
 		{2,4,1,
 		2,5,6};
-	double a4[16] =
-		{1,3,3,5,
-		4,1,4,5,
-		3,3,1,5,
-		5,5,4,5};
+
 	Matrix A(a1,3,3);
 	Matrix B(a2,3,3);
 	Matrix C(a3,2,3);
-	Matrix D(a4,4,4);
 
+	// A+B,A-B,A*B,C*B,B*C
+	std::cout << "A+B=";
+	Matrix add(A+B);
+	std::cout << add << std::endl;
+
+	std::cout << "A-B=";
+	Matrix sub(A-B);
+	std::cout << sub << std::endl;
+
+	std::cout << "A*B=";
+	Matrix AB(A*B);
+	std::cout << AB << std::endl;
+
+	std::cout << "C*B=";
+	Matrix CB(C*B);
+	std::cout << CB << std::endl;
+
+	std::cout << "B*C=";
+	Matrix BC(B*C);
+	std::cout << BC << std::endl;
+
+	// Determinants
+	std::cout << "det(A)= " << A.determinant() << std::endl;
+	std::cout << "det(B)= " << B.determinant() << std::endl;
+
+	//
 
     return 0;
 }
