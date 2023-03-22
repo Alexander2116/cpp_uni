@@ -28,7 +28,8 @@
 class Matrix
 {
 	// Friends
-	friend std::ostream & operator<<(std::ostream &os, const Matrix &mat);
+	friend std::ostream& operator<<(std::ostream &os, Matrix &m);
+	friend std::istream& operator>>(std::istream &is, Matrix &m);
 private:
 	uint32_t _rows{0}, _columns{0};
 	double *_matrix_data{nullptr}; // it will be double[] 1D array/list
@@ -266,8 +267,21 @@ public:
 		}
 		else{
 			std::cout << "cannot be multiplied" << std::endl;
-			exit(1);
+			//exit(1);
+			return Matrix();
 		}
+		return result_m;
+	}
+	Matrix operator*(const double &a){
+		// This is a array for the NEW Matrix (the result of multiplication)
+		double *temp;
+		temp = new double[_rows * _columns];
+		Matrix result_m;
+		// Go for i-th row of the New Matrix
+		for(int i = 0; i<_rows*_columns; i++){
+			temp[i] = _matrix_data[i]*a;
+		}
+		result_m = Matrix(temp, _rows, _columns);
 		return result_m;
 	}
 	Matrix operator^(int n){
@@ -282,13 +296,14 @@ public:
 		}
 		else{
 			std::cout << "Error while rising matrices to the power of "<< n << std::endl;
-			exit(1);
+			//exit(1);
+			return Matrix();
 		}
 		
 	}
 };
 
-// Functions to overload (arithmetic operations):
+// === Functions to overload ===
 Matrix operator+(const Matrix &m1, const Matrix &m2){
 	return m1+m2;
 }
@@ -298,18 +313,39 @@ Matrix operator-(const Matrix &m1, const Matrix &m2){
 Matrix operator*(const Matrix &m1, const Matrix &m2){
 	return m1*m2;
 }
-Matrix operator*(const Matrix &m, double a){
-	Matrix temp;
-	return temp;
+Matrix operator*(const double a, Matrix &m){
+	return m*a;
 }
-Matrix operator*(double a, const Matrix &m){
-	Matrix temp;
-	return temp;
+std::ostream &operator<<(std::ostream &os, Matrix &m){
+	os << std::endl;
+	// I have written this method initially so I'm using it, no point of rewritting the code
+	m.show();
+  	return os;
 }
-//=== defined functions ===
-// Functions to overload: << and >> operator for complex
-
-
+std::istream &operator>>(std::istream &is, Matrix &m){
+	int r{0};
+	int c{0};
+	std::cout << "Number of rows: ";
+	is >> r;
+	std::cout << "Number of columns: ";
+	is >> c;
+	
+	// Simple validation, return unchanged matrix
+	if(r<1 || c<1){
+		std::cout << "Matrix of this dimension cannot be created" << std::endl;
+		return is;
+	}
+	m._rows = r;
+	m._columns = c;
+	m._matrix_data = new double[m._rows*m._columns];
+	for(int i = 1; i<=m._rows; i++){
+		for(int j = 1; j<=m._columns; j++){
+			std::cout << "Enter value for index (" << i <<"," <<j <<"): ";
+			is >> m._matrix_data[m.index(i,j)];
+		}
+	}
+	return is;
+}
 
 //=== main ===
 int main(){
@@ -335,12 +371,6 @@ int main(){
 	Matrix C(a3,2,3);
 	Matrix D(a4,4,4);
 
-	Matrix temp;
-	temp = C*B;
-	temp.show();
-	std::cout << D.determinant();
-	/*temp = B*C;
-	temp.show();*/
 
     return 0;
 }
