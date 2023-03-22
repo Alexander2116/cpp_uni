@@ -68,20 +68,24 @@ public:
 		}
 	}
 	// Copy constructor
-	Matrix(const Matrix &m){
+	Matrix(Matrix &m){
 		// Just copy the data
 		_rows = m._rows;
 		_columns = m._columns;
-		_matrix_data = m._matrix_data;
+		_matrix_data = new double[_rows*_columns];
+		for(int i = 0; i<_rows*_columns; i++){
+			_matrix_data[i] = m._matrix_data[i];
+		}
 	}
 	// Move constructor
-	Matrix(Matrix &&m):
-		_rows(std::move(m._rows)),
-		_columns(std::move(m._columns)),
-		_matrix_data(std::move(m._matrix_data))
-	{	
+	Matrix(Matrix &&m){	
 		std::cout << "Move constructor called" << std::endl;
-		m._matrix_data = NULL;
+		_rows = m._rows;
+		_columns = m._columns;
+		_matrix_data = m._matrix_data;
+		m._rows = 0;
+		m._columns = 0;
+		m._matrix_data = nullptr;
 	}	
 	// Destructor
 	~Matrix(){
@@ -201,7 +205,11 @@ public:
 		_rows = m._rows;
 		_columns = m._columns;
 		_matrix_data = nullptr;
-		_matrix_data = m._matrix_data;
+		delete[] _matrix_data;
+		_matrix_data = new double[_rows*_columns];
+		for(int i = 0; i < _rows*_columns; i++){
+			_matrix_data[i] = m._matrix_data[i];
+		}
 		return *this;
 	}
 
@@ -214,6 +222,7 @@ public:
 		_rows = m._rows;
 		_columns = m._columns;
 		_matrix_data = nullptr;
+		delete[] _matrix_data;
 		_matrix_data = m._matrix_data;
 		m._rows = 0;
 		m._columns = 0;
@@ -412,10 +421,12 @@ int main(){
 
 	// copy A
 	Matrix cA;
-	cA = A;
+	cA = A; // Matrix cA(A) also works
 	// modify A
-	A = A^2;
-	// A(1,1) = 8; // This also works 
+	//A = A^2; // This also works
+	A(1,1) = 0;
+	A(2,2) = 0;
+	A(3,3) = 0;
 	// Output copy and modified A
 	std::cout << "Copied A:" << cA << std::endl;
 	std::cout << "Modified A:" << A << std::endl;
