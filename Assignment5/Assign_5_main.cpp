@@ -79,7 +79,7 @@ public:
 	}
 	// Move constructor
 	Matrix(Matrix &&m){	
-		std::cout << "Move constructor called" << std::endl;
+		//std::cout << "Move constructor called" << std::endl;
 		_rows = m._rows;
 		_columns = m._columns;
 		_matrix_data = m._matrix_data;
