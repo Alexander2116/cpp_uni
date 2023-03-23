@@ -180,10 +180,7 @@ public:
 
 	// For easy return of M_(mn) item of the matrix M
 	double& operator()(uint32_t m, uint32_t n){
-		if(m>_rows || n>_columns){
-			std::cout << "Index out of range" << std::endl;
-			exit(1);
-		}
+		// input is checked inside index() method
 		return _matrix_data[index(m,n)];
 	}
 
