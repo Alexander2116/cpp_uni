@@ -211,18 +211,14 @@ public:
 
 	// Move assignment operator
 	Matrix& operator=(Matrix &&m) noexcept{
+		//std::cout << "Move assignment operator called" << std::endl;
 		// No need to move when the given input is exactly the same object 
 		if (this == &m) {
         	return *this;
     	}
-		_rows = m._rows;
-		_columns = m._columns;
-		_matrix_data = nullptr;
-		delete[] _matrix_data;
-		_matrix_data = m._matrix_data;
-		m._rows = 0;
-		m._columns = 0;
-		m._matrix_data = nullptr;
+		std::swap(_rows, m._rows);
+		std::swap(_columns, m._columns);
+		std::swap(_matrix_data, m._matrix_data);
 		return *this;
 	}
 
@@ -427,6 +423,14 @@ int main(){
 	std::cout << "Copied A:" << cA << std::endl;
 	std::cout << "Modified A:" << A << std::endl;
 
+	// Return A to initial value
+	A = Matrix(a1,3,3);
+	// Move constructor 
+	Matrix mA;
+	mA = std::move(A);
+	std::cout << "Matrix A has been moved to mA, matrix mA is:" << mA << std::endl; // Should be the same as A
+	std::cout << "Original matrix A is now:"<< A;
+	std::cout << "It has (" << A.get_rows() <<"," << A.get_cols() << ") dimension" << std::endl << std::endl; // Should appear empty
 
 	// Create your own matrix
 	Matrix Neo;
