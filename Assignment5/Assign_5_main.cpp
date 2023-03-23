@@ -89,10 +89,9 @@ public:
 	}	
 	// Destructor
 	~Matrix(){
-		// Assigning NULL first is necessary to avoid "Exception: unknown signal"
-		// Possible that it tries to remove uninitialized object but in default _matarix_data=nullptr, STRANGE
-		_matrix_data = NULL;
 		delete[] _matrix_data;
+		_rows = 0;
+		_columns = 0;
 		// Uncomment if you want to make sure that the object is deconstructed (I like my terminal clean)
 		//std::cout << "Destructor was called" << std::endl;
 	}
