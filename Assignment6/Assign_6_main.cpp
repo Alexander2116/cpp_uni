@@ -38,5 +38,5 @@ int main(){
 	Square s2(2);
 	Rectangle r1(5,5);
 	Rectangle r2(6,5);
-	r2.Info();
+	r2.ShapeInfo();
 }

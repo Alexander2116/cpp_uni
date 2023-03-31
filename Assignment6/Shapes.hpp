@@ -90,7 +90,7 @@ namespace myShapes{
 			Shape3D(std::string shape_type);
 			virtual ~Shape3D();
 			virtual double GetVolume(); // return area
-			virtual void Info(); // general info about the current shape
+			virtual void ShapeInfo(); // general info about the current shape
 	};
 
 	class Cuboid : public Shape3D{

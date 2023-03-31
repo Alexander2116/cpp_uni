@@ -39,6 +39,7 @@ Square::Square(double a): Shape2D{"Square"}{
 }
 Square::~Square(){count -= 1;}
 void Square::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " squares" << std::endl;
 }
 int Square::count{0};
@@ -50,6 +51,7 @@ Ellipse::Ellipse(double a, double b): Shape2D{"Ellipse"}{
 }
 Ellipse::~Ellipse(){count -= 1;}
 void Ellipse::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " ellipses" << std::endl;
 }
 int Ellipse::count{0};
@@ -61,6 +63,7 @@ Circle::Circle(double a): Shape2D{"Circle"}{
 }
 Circle::~Circle(){count -= 1;}
 void Circle::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " circles" << std::endl;
 }
 int Circle::count{0};
@@ -76,7 +79,7 @@ Shape3D::~Shape3D(){
     n_objects -= 1;
 }
 double Shape3D::GetVolume(){return vol;}
-void Shape3D::Info(){
+void Shape3D::ShapeInfo(){
     std::cout << "There are " << n_objects <<" 3D shapes in total" << std::endl;
     std::cout << "This is a " << shape_name << " of volume " << vol << std::endl;
 }
@@ -89,6 +92,7 @@ Cuboid::Cuboid(double h, double l, double w): Shape3D{"Cuboid"}{
 }
 Cuboid::~Cuboid(){count -= 1;}
 void Cuboid::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " cuboids" << std::endl;
 }
 int Cuboid::count{0};
@@ -100,6 +104,7 @@ Cube::Cube(double a): Shape3D{"Cube"}{
 }
 Cube::~Cube(){count -= 1;}
 void Cube::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " cubes" << std::endl;
 }
 int Cube::count{0};
@@ -111,6 +116,7 @@ Ellipsoid::Ellipsoid(double a, double b, double c): Shape3D{"Ellipsoid"}{
 }
 Ellipsoid::~Ellipsoid(){count -= 1;}
 void Ellipsoid::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " ellipsoids" << std::endl;
 }
 int Ellipsoid::count{0};
@@ -122,6 +128,7 @@ Sphere::Sphere(double a): Shape3D{"Sphere"}{
 }
 Sphere::~Sphere(){count -= 1;}
 void Sphere::Info(){
+    ShapeInfo();
     std::cout << "This is one of " << count << " spheres" << std::endl;
 }
 int Sphere::count{0};
