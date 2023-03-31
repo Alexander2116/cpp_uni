@@ -30,13 +30,22 @@
 
 using namespace myShapes;
 //=== main ===
+void call_2Dshapes(){
+	Rectangle r1(1,1);
+	Rectangle r2(2,2);
+	r2.ShapeInfo();
+}
+
 int main(){
 	std::cout << "Welcome" << std::endl;
 	Rectangle r(4.0,5.0);
-	r.Info();
-	Square s1(1);
-	Square s2(2);
-	Rectangle r1(5,5);
-	Rectangle r2(6,5);
-	r2.ShapeInfo();
+	r.ShapeInfo();
+	/* you should see new objects here, the count of total objects
+	 should increase after calling the function below*/
+	std::cout << std::endl << "Calling a function" << std::endl;
+	call_2Dshapes();
+	/* the deconstructor is called after function above is executed
+	it means we should go back to number of shapes before that function*/
+	std::cout << std::endl << "Total number of shapes after the function is executed" << std::endl;
+	r.ShapeInfo();
 }
