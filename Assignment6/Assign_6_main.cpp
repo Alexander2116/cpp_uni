@@ -26,26 +26,27 @@
 //=== includes ===
 #include<iostream>
 #include<cmath>
+#include<vector>
 #include "Shapes.cpp"
 
 using namespace myShapes;
-//=== main ===
-void call_2Dshapes(){
-	Rectangle r1(1,1);
-	Rectangle r2(2,2);
-	r2.ShapeInfo();
-}
 
+//=== main ===
 int main(){
-	std::cout << "Welcome" << std::endl;
-	Rectangle r(4.0,5.0);
-	r.ShapeInfo();
-	/* you should see new objects here, the count of total objects
-	 should increase after calling the function below*/
-	std::cout << std::endl << "Calling a function" << std::endl;
-	call_2Dshapes();
-	/* the deconstructor is called after function above is executed
-	it means we should go back to number of shapes before that function*/
-	std::cout << std::endl << "Total number of shapes after the function is executed" << std::endl;
-	r.ShapeInfo();
+	std::vector<Shape2D*> shapes2D;
+	shapes2D.push_back(new Rectangle{2,1});
+	shapes2D.push_back(new Square{5});
+	shapes2D.push_back(new Ellipse{4,2});
+	shapes2D.push_back(new Circle{3});
+
+	std::vector<Shape3D*> shapes3D;
+	shapes3D.push_back(new Cuboid{2,1,1});
+	shapes3D.push_back(new Cube{5});
+	shapes3D.push_back(new Ellipsoid{4,2,1});
+	shapes3D.push_back(new Sphere{3});
+
+	for(auto sh : shapes2D){
+		sh->Info();
+	}
+
 }

@@ -14,7 +14,10 @@ Shape2D::~Shape2D(){
     n_objects -= 1;
 }
 double Shape2D::GetArea(){return ar;}
-void Shape2D::ShapeInfo(){
+void Shape2D::Info(){
+    std::cout << "This is a " << shape_name << " of area " << ar << std::endl;
+}
+void Shape2D::NumberShapeInfo(){
     std::cout << "There are " << n_objects <<" 2D shapes in total" << std::endl;
 }
 int Shape2D::n_objects{0};
@@ -25,9 +28,7 @@ Rectangle::Rectangle(double a, double b): Shape2D{"Rectangle"}{
     ar = a*b;
 }
 Rectangle::~Rectangle(){count -= 1;}
-void Rectangle::Info(){
-    ShapeInfo();
-    std::cout << "This is a " << shape_name << " of area " << ar << std::endl;
+void Rectangle::CountInfo(){
     std::cout << "This is one of " << count << " rectangles" << std::endl;
 }
 int Rectangle::count{0};
@@ -38,10 +39,8 @@ Square::Square(double a): Shape2D{"Square"}{
     ar = a*a;
 }
 Square::~Square(){count -= 1;}
-void Square::Info(){
-    ShapeInfo();
-    std::cout << "This is a " << shape_name << " of area " << ar << std::endl;
-    std::cout << "This is one of " << count << " squares" << std::endl;
+void Square::CountInfo(){
+    std::cout << "This is one of " << count << " rectangles" << std::endl;
 }
 int Square::count{0};
 
@@ -51,10 +50,8 @@ Ellipse::Ellipse(double a, double b): Shape2D{"Ellipse"}{
     ar = M_PI*a*b;
 }
 Ellipse::~Ellipse(){count -= 1;}
-void Ellipse::Info(){
-    ShapeInfo();
-    std::cout << "This is a " << shape_name << " of area " << ar << std::endl;
-    std::cout << "This is one of " << count << " ellipses" << std::endl;
+void Ellipse::CountInfo(){
+    std::cout << "This is one of " << count << " rectangles" << std::endl;
 }
 int Ellipse::count{0};
 
@@ -64,10 +61,8 @@ Circle::Circle(double a): Shape2D{"Circle"}{
     ar = M_PI*a*a;
 }
 Circle::~Circle(){count -= 1;}
-void Circle::Info(){
-    ShapeInfo();
-    std::cout << "This is a " << shape_name << " of area " << ar << std::endl;
-    std::cout << "This is one of " << count << " circles" << std::endl;
+void Circle::CountInfo(){
+    std::cout << "This is one of " << count << " rectangles" << std::endl;
 }
 int Circle::count{0};
 

@@ -34,12 +34,12 @@ namespace myShapes{
 			std::string shape_name;
 			static int n_objects; 
 		public:
-			// Lengths[] is an array checking if given lengths are positive
-			// It will be used only when defining different shapes, use {a,b,c} to enter length
+			// I didn't find a need to create a purely virtual function
 			Shape2D(std::string shape_type);
 			virtual ~Shape2D();
 			virtual double GetArea(); // return area
-			virtual void ShapeInfo(); // general info about the current shape
+			virtual void Info(); // general info about this shape: type + area
+			virtual void NumberShapeInfo(); // general info about the total number of shapes
 	};
 	//int Shape2D::n_objects{0};
 
@@ -49,7 +49,7 @@ namespace myShapes{
 		public:
 			Rectangle(double a_side_length, double b_side_length);
 			~Rectangle();
-			void Info();
+			void CountInfo(); // only how many objects of this specific shape exist
 	};
 
 	class Square : public Shape2D{
@@ -58,7 +58,7 @@ namespace myShapes{
 		public:
 			Square(double side_length); 
 			~Square();
-			void Info();
+			void CountInfo();
 	};
 
 	class Ellipse : public Shape2D{
@@ -68,7 +68,7 @@ namespace myShapes{
 			// a = 1/2 minor axis, b = 1/2 major axis
 			Ellipse(double minor_axis, double major_axis); 
 			~Ellipse();
-			void Info();
+			void CountInfo();
 	};
 
 	class Circle : public Shape2D{
@@ -77,7 +77,7 @@ namespace myShapes{
 		public:
 			Circle(double radius);
 			~Circle();
-			void Info();
+			void CountInfo();
 	};
 
 	// ** 3D Shapes **
