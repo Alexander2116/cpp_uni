@@ -24,10 +24,8 @@
 
 
 //=== includes ===
-#include<iostream>
-#include<cmath>
 #include<vector>
-#include "Shapes.cpp"
+#include "Shapes.cpp" // cmath + iostream
 
 using namespace myShapes;
 
@@ -48,5 +46,17 @@ int main(){
 	for(auto sh : shapes2D){
 		sh->Info();
 	}
+	std::cout << std::endl;
+	for(auto sh : shapes3D){
+		sh->Info();
+	}
+	std::cout << std::endl;
+
+	shapes2D.clear();
+	shapes3D.clear();
+
+	Prism prism_example{new Square{3}, 5};
+	prism_example.Info();
+	std::cout << "Volume: " << prism_example.GetVolume();
 
 }

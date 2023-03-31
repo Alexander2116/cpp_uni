@@ -30,7 +30,7 @@ namespace myShapes{
 	// ** 2D Shapes **
 	class Shape2D {
 		protected:
-			double ar; // area
+			double ar{0}; // area
 			std::string shape_name;
 			static int n_objects; 
 		public:
@@ -83,14 +83,17 @@ namespace myShapes{
 	// ** 3D Shapes **
 	class Shape3D {
 		protected:
-			double vol; // volume
+			double sur_area{0}; // surface area
+			double vol{0}; // volume
 			std::string shape_name;
 			static int n_objects;
 		public:
 			Shape3D(std::string shape_type);
 			virtual ~Shape3D();
-			virtual double GetVolume(); // return area
-			virtual void ShapeInfo(); // general info about the current shape
+			virtual double GetVolume(); // return volume
+			virtual double GetSurfaceArea(); // return area
+			virtual void Info();
+			virtual void NumberShapeInfo(); // general info about the current shape
 	};
 
 	class Cuboid : public Shape3D{
@@ -99,7 +102,7 @@ namespace myShapes{
 		public:
 			Cuboid(double hight, double length, double width);
 			~Cuboid();
-			void Info();
+			void CountInfo();
 	};
 	class Cube : public Shape3D{
 		private:
@@ -107,7 +110,7 @@ namespace myShapes{
 		public:
 			Cube(double a);
 			~Cube();
-			void Info();
+			void CountInfo();
 	};
 	class Ellipsoid : public Shape3D{
 		private:
@@ -115,7 +118,8 @@ namespace myShapes{
 		public:
 			Ellipsoid(double a, double b, double c);
 			~Ellipsoid();
-			void Info();
+			void Info(); // Need to override to say "approximate surface area"
+			void CountInfo();
 	};
 	class Sphere : public Shape3D{
 		private:
@@ -123,7 +127,17 @@ namespace myShapes{
 		public:
 			Sphere(double radius);
 			~Sphere();
-			void Info();
+			void CountInfo();
+	};
+
+	/* Prism */
+	class Prism : public Shape3D{
+		private:
+		public:
+			Prism(Shape2D* shape, double height);
+			~Prism();
+			void Info(); // override to display only volume
+			// "Class must contain a function to return volume" -> inherited from Shape3D
 	};
 }
 #endif /* !SHAPES_H */
