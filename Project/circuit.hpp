@@ -2,7 +2,7 @@
 #define CIRCUIT_H
 
 #include <vector>
-#include "components.cpp"
+#include "components.hpp"
 
 namespace AC_Circuit{
     using namespace myComponents;

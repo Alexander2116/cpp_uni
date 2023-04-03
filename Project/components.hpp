@@ -4,9 +4,11 @@
 namespace myComponents{
 
     class Component{
-
+        private:
+            int test = 0;
         public:
             Component();
+            virtual ~Component();
             virtual double Impedance()=0;
             virtual void GraphicRepresentation()=0;
     };
