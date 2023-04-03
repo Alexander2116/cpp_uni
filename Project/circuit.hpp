@@ -10,7 +10,6 @@ namespace AC_Circuit{
     class Circuit{
         private:
             std::vector<std::vector<Component*>> circuit_objects;
-            Component a;
         public:
             Circuit();
             void Add_serial();

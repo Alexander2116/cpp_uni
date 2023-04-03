@@ -26,9 +26,10 @@ namespace myComponents{
     };
 
     class Inductor: public Component{
-
+        private:
+            double _inductance;
         public:
-            Inductor();
+            Inductor(double ind);
             double Impedance();
     };
 
