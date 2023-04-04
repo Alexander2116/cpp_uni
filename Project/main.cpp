@@ -1,5 +1,5 @@
-#include "circuit.cpp"
-#include "components.cpp"
+#include "circuit.hpp"
+#include "components.hpp"
 
 using namespace AC_Circuit;
 

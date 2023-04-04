@@ -11,15 +11,21 @@ namespace myComponents{
 
     /* Resistor */
     Resistor::Resistor(){}
-    double Resistor::Impedance(){}
+    double Resistor::Impedance(){
+        return 0;
+    }
 
     /* Capacitor*/
     Capacitor::Capacitor(){}
-    double Capacitor::Impedance(){}
+    double Capacitor::Impedance(){
+        return 0;
+    }
 
     /* Inductor */
     Inductor::Inductor(double ind){
         _inductance = ind;
     }
-    double Inductor::Impedance(){}
+    double Inductor::Impedance(){
+        return 0;
+    }
 }
