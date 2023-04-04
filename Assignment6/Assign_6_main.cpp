@@ -19,7 +19,7 @@
 
 //=== includes ===
 #include<vector>
-#include "Shapes.cpp" // cmath + iostream
+#include "Shapes.hpp" // cmath + iostream
 
 using namespace myShapes;
 
