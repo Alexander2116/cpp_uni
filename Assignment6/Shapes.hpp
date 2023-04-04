@@ -100,7 +100,7 @@ namespace myShapes{
 		private:
 			static int count;
 		public:
-			Cuboid(double hight, double length, double width);
+			Cuboid(double height, double length, double width);
 			~Cuboid();
 			void CountInfo();
 	};
