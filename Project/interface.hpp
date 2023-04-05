@@ -17,12 +17,13 @@ namespace myInterface{
     class Interface{
         private:
             std::vector<std::vector<Component*>> circuit_objects;
+            StringMatrix display_data;
             int x_size_window;
             int y_size_window;
         public:
             Interface();
             void Display();
-            void Update();
+            void UpdateGraphic();
     };
 
 }
