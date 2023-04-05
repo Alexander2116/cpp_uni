@@ -4,7 +4,7 @@
 #include <vector>
 #include "components.hpp"
 
-namespace AC_Circuit{
+namespace myACCircuit{
     using namespace myComponents;
 
     class Circuit{
@@ -12,8 +12,8 @@ namespace AC_Circuit{
             std::vector<std::vector<Component*>> circuit_objects;
         public:
             Circuit();
-            void Add_serial();
-            void Add_parallel();
+            void Add_serial(Component* new_component);
+            void Add_parallel(Component* new_component);
     };
 
 }
