@@ -10,7 +10,7 @@ namespace myComponents{
     }
 
     /* Resistor */
-    Resistor::Resistor(double res){
+    Resistor::Resistor(double res): Component(){
         _resistivity = res;
     }
     complex Resistor::Impedance(){

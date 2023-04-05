@@ -5,6 +5,7 @@
 
 namespace myComponents{
     using namespace myComplex;
+    
     class Component{
         private:
             int test = 0;

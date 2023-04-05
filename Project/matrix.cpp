@@ -16,7 +16,7 @@ namespace myMatrix{
             _columns = n;
             _matrix_data = new std::string[m*n];
             for(int i=0; i<m*n; i++){
-                _matrix_data[i] = " ";
+                _matrix_data[i] = "       "; // 7 chars
             }
         }
         // Copy constructor

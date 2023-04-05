@@ -13,7 +13,8 @@ namespace myACCircuit{
         public:
             Circuit();
             void Add_serial(Component* new_component);
-            void Add_parallel(Component* new_component);
+            void Add_parallel(std::vector<Component*> new_components);
+            std::vector<std::vector<Component*>> Get_objects();
     };
 
 }
