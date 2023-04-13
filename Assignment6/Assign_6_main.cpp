@@ -18,7 +18,7 @@
 
 
 //=== includes ===
-#include<vector>
+#include <vector>
 #include "Shapes.hpp" // cmath + iostream
 
 using namespace myShapes;

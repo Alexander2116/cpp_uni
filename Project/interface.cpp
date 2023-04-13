@@ -24,7 +24,7 @@ namespace myInterface{
         }
         
         // End Frame
-        std::cout << std::endl << std::endl;
+        std::cout << std::endl;
         for(int i=0; i<x_size_window; i++){
             std::cout << "*";
         }

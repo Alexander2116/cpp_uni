@@ -1,6 +1,6 @@
 // Shapes.cpp
 #include "Shapes.hpp"
-
+#define _USE_MATH_DEFINES
 namespace myShapes{
 
     /* Shape2D */
