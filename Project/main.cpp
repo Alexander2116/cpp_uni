@@ -10,9 +10,11 @@ using namespace myInterface;
 
 int main(){
     Circuit cir;
+    
     std::vector<Component*> temp;
     std::vector<Component*> temp2;
     std::vector<Component*> temp3;
+    
     temp.push_back(new Resistor(4));
     temp.push_back(new Capacitor(4));
     temp.push_back(new Resistor(4));

@@ -67,6 +67,7 @@ namespace myComplex{
 		complex operator*(const double& a);
 		// (a+ib)/A = a/A + i b/A
 		complex operator/(const double& a);
+
 	};
 
 	//=== defined functions ===
@@ -77,6 +78,12 @@ namespace myComplex{
 
 	// This is made so I could use a*z, NOT ONLY z*a
 	complex operator*(const double a, const complex& z);
+
+	complex operator/(const double a, const complex& z);
+
+	complex operator+(const complex& z1, const complex& z2);
+
+	complex operator+=(const complex& z1, const complex& z2);
 
 }
 

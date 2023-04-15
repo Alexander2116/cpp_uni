@@ -1,5 +1,6 @@
 // components.cpp
 #include "components.hpp"
+#define _USE_MATH_DEFINES
 
 namespace myComponents{
     using namespace myComplex;
@@ -8,40 +9,51 @@ namespace myComponents{
     }
     Component::~Component(){
     }
+    void Component::SetFrequency(double frequency){
+        _frequency = frequency;
+    }
+    double Component::GetFrequency(){
+        return _frequency;
+    }
+    complex Component::GetImpedance(){
+        return _impedance;
+    }
+    double Component::GetImpedanceMagnitude(){
+        return _impedance.get_modulus();
+    }
 
     /* Resistor */
     Resistor::Resistor(double res): Component(){
         _resistivity = res;
-    }
-    complex Resistor::GetImpedance(){
-        return complex(_resistivity,0);
+        _impedance = complex(_resistivity,0);
     }
     std::string Resistor::GraphicRepresentation(){
         return "-/\\/\\/-"; // will show -/\/\/-, \ is an escape character
     }
     double Resistor::GetPhaseDifference(){
-
+        return 0;
     }
 
     /* Capacitor*/
     Capacitor::Capacitor(double cap){
         _capacitance = cap;
-    }
-    complex Capacitor::GetImpedance(){
-        return complex(0,-1/_capacitance); // complex(0,-(_capacitance*_freq))
+        _impedance = complex(0,-1/(_capacitance*_frequency*2*M_PI));
     }
     std::string Capacitor::GraphicRepresentation(){
         return "--| |--";
     }
-
+    double Capacitor::GetPhaseDifference(){
+        return 0;
+    }
     /* Inductor */
     Inductor::Inductor(double ind){
         _inductance = ind;
-    }
-    complex Inductor::GetImpedance(){
-        return complex(0,_inductance); // complex(0,_inductance*_freq)
+        _impedance = complex(0,_inductance*_frequency*2*M_PI);
     }
     std::string Inductor::GraphicRepresentation(){
         return "--ooo--";
+    }
+    double Inductor::GetPhaseDifference(){
+        return 0;
     }
 }

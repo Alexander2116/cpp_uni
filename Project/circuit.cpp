@@ -5,18 +5,15 @@
 namespace myACCircuit{
     using namespace myComponents;
 
-    Circuit::Circuit(){}
+    Circuit::Circuit(){_impedance = complex(0,0);}
 
-    complex Circuit::calc_serial(std::vector<complex> impedancies){
-            complex temp(0,0);
-            // Adding parallel
-            for(auto imped : impedancies){
-                temp += imped;
-            }
-            return temp;
-    } // gives impedance for serial components
-
-    std::vector<complex> Circuit::calc_parallel(std::vector<std::vector<Component*>> circuit_objects_list){
+    // *****************************************
+    /* Private functions to calculate impedances:
+        First: Calculate parallel blokes of components
+        Second Calculate serial blokes of impedances 
+    */
+    // Adding parallel impadances: 1/Z = 1/Z1 + 1/Z2 + ...
+    std::vector<complex> Circuit::calc_parallel(vvc circuit_objects_list){
         std::vector<complex> impedance_series;
         for(auto list_of_components : circuit_objects_list){
             complex temp(0,0);
@@ -28,6 +25,16 @@ namespace myACCircuit{
         }
         return impedance_series;
     } // gives impedance for parallel components
+    // Adding serial impadances: Z = Z1 + Z2 + Z3 + ...
+    complex Circuit::calc_serial(std::vector<complex> impedancies){
+            complex temp(0,0);
+            // Adding parallel
+            for(auto imped : impedancies){
+                temp += imped;
+            }
+            return temp;
+    } // gives impedance for serial components
+    // *****************************************
 
     void Circuit::Add_serial(Component* new_component){
         std::vector<Component*> temp;
@@ -37,11 +44,23 @@ namespace myACCircuit{
     void Circuit::Add_parallel(std::vector<Component*> new_components){
         circuit_objects.push_back(new_components);
     }
-    std::vector<std::vector<Component*>> Circuit::Get_objects(){
+    vvc Circuit::Get_objects(){
         return circuit_objects;
     }
+    double Circuit::GetEMF(){
+        return _efm;
+    }
     complex Circuit::GetImpedance(){
-        return calc_serial(calc_parallel(circuit_objects));
+        // Just in case if circuit_objects is empty. complex(0,0) should be returned anyway looking at calc_serial() structure
+        // Alternatively I could use if(obj != null)
+        try{
+            _impedance = calc_serial(calc_parallel(circuit_objects));
+        }
+        catch(...){
+            std::cout << "Impedance couldn't be calculated. Perhaps list of objects is empty" << std::endl;
+            _impedance = complex(0,0);
+        }
+        return _impedance;
     }
 
 }

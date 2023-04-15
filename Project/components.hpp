@@ -8,16 +8,17 @@ namespace myComponents{
     
     class Component{
         protected:
-            double frequency = 0;
+            double _frequency = 0;
+            complex _impedance;
         public:
             Component();
             ~Component();
-            virtual complex GetImpedance()=0;
+            virtual complex GetImpedance();
             virtual double GetPhaseDifference()=0;
-            virtual double GetImpedanceMagnitude()=0;
+            virtual double GetImpedanceMagnitude();
             virtual std::string GraphicRepresentation()=0;
-            virtual double SetFrequency()=0;
-            virtual double GetFrequency()=0;
+            virtual void SetFrequency(double frequency);
+            virtual double GetFrequency();
     };
 
     class Resistor: public Component{
@@ -25,12 +26,8 @@ namespace myComponents{
             double _resistivity;
         public:
             Resistor(double resistivity);
-            complex GetImpedance();
             double GetPhaseDifference();
-            double GetImpedanceMagnitude();
             std::string GraphicRepresentation();
-            double SetFrequency();
-            double GetFrequency();
     };
 
     class Capacitor: public Component{
@@ -38,12 +35,8 @@ namespace myComponents{
             double _capacitance;
         public:
             Capacitor(double capacitance);
-            complex GetImpedance();
             double GetPhaseDifference();
-            double GetImpedanceMagnitude();
             std::string GraphicRepresentation();
-            double SetFrequency();
-            double GetFrequency();
     };
 
     class Inductor: public Component{
@@ -51,12 +44,8 @@ namespace myComponents{
             double _inductance;
         public:
             Inductor(double inductance);
-            complex GetImpedance();
             double GetPhaseDifference();
-            double GetImpedanceMagnitude();
             std::string GraphicRepresentation();
-            double SetFrequency();
-            double GetFrequency();
     };
 
     class AC_Source: public Component{
@@ -66,13 +55,19 @@ namespace myComponents{
             double _current;
         public:
             AC_Source(double vol, double freq, double cur);
-            complex GetImpedance();
             double GetPhaseDifference();
-            double GetImpedanceMagnitude();
             std::string GraphicRepresentation();
-            double SetFrequency();
-            double GetFrequency();
     };
+    // alternative
+    /*
+    struct AC_Source : public Component
+    {
+            double _frequency;
+            double _voltage;
+            double _current;
+            AC_Source(double v, double i, double f);
+    };*/
+    
 }
 
 #endif /* !COMPONENTS_H */

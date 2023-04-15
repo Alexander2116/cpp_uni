@@ -6,6 +6,8 @@ namespace myInterface{
     using namespace myComplex;
 
     Interface::Interface(){};
+
+    // Display current layout 
     void Interface::Display(){
         UpdateGraphic();
 
@@ -29,6 +31,8 @@ namespace myInterface{
             std::cout << "*";
         }
     }
+
+    // Updates the display matrix
     void Interface::UpdateGraphic(){
         x_size_window = circuit_objects.size();
 
@@ -51,5 +55,5 @@ namespace myInterface{
 
     void Interface::UpdateObjects(std::vector<std::vector<Component*>> add_circuit_objects){
         circuit_objects = add_circuit_objects;
-    };
+    }
 }
