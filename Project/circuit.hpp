@@ -15,6 +15,7 @@ namespace myACCircuit{
             vvc circuit_objects; // whole circuit structure
             complex _impedance; // Thevenin impedance of the circuit
             double _efm;
+            static int _id;
 
         protected:
             // these functions shouldn't be accessed publicly because they have no self-standing meaning
@@ -22,11 +23,13 @@ namespace myACCircuit{
             std::vector<complex> calc_parallel(vvc circuit_objects_list); // gives impedance for parallel components
         public:
             Circuit();
+            ~Circuit();
             void Add_serial(Component* new_component);
             void Add_parallel(std::vector<Component*> new_components);
             vvc Get_objects();
             double GetEMF();
             complex GetImpedance();
+            double GetPhaseDifference();
     };
 
 }

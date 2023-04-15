@@ -5,7 +5,16 @@
 namespace myACCircuit{
     using namespace myComponents;
 
-    Circuit::Circuit(){_impedance = complex(0,0);}
+    Circuit::Circuit(){
+        _impedance = complex(0,0);
+    }
+
+    Circuit::~Circuit(){
+        _impedance = complex(0,0);
+        circuit_objects.clear();
+    }
+
+    int Circuit::_id{0};
 
     // *****************************************
     /* Private functions to calculate impedances:
@@ -63,4 +72,7 @@ namespace myACCircuit{
         return _impedance;
     }
 
+    double Circuit::GetPhaseDifference(){
+        return _impedance.get_argument();
+    }
 }

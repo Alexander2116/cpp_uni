@@ -16,7 +16,7 @@ namespace myInterface{
 
     class Interface{
         private:
-            std::vector<std::vector<Component*>> circuit_objects;
+            vvc circuit_objects;
             StringMatrix display_data;
             int x_size_window{1};
             int y_size_window{1};
@@ -24,8 +24,11 @@ namespace myInterface{
             Interface();
             void Display();
             void UpdateGraphic();
-            void UpdateObjects(std::vector<std::vector<Component*>> add_circuit_objects);
+            void UpdateObjects(vvc add_circuit_objects);
     };
+
+
+    void Clear();
 
 }
 

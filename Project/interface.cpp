@@ -12,7 +12,8 @@ namespace myInterface{
         UpdateGraphic();
 
         // Start Frame
-        for(int i=0; i<x_size_window;i++){
+        // it is *7 because a component has 7char representation
+        for(int i=0; i<x_size_window*7;i++){
             std::cout << "*";
         }
         std::cout << std::endl << std::endl;
@@ -27,7 +28,7 @@ namespace myInterface{
         
         // End Frame
         std::cout << std::endl;
-        for(int i=0; i<x_size_window; i++){
+        for(int i=0; i<x_size_window*7; i++){
             std::cout << "*";
         }
     }
@@ -53,7 +54,18 @@ namespace myInterface{
 
     }
 
-    void Interface::UpdateObjects(std::vector<std::vector<Component*>> add_circuit_objects){
+    void Interface::UpdateObjects(vvc add_circuit_objects){
         circuit_objects = add_circuit_objects;
+    }
+
+
+    void Clear(){
+        #if defined _WIN32
+            system("cls");
+        #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+            system("clear");
+        #elif defined (__APPLE__)
+            system("clear");
+        #endif
     }
 }

@@ -27,6 +27,7 @@ int main(){
     cir.Add_parallel(temp);
     cir.Add_parallel(temp2);
     cir.Add_parallel(temp3);
+
     Interface inter;
     inter.UpdateObjects(cir.Get_objects());
     inter.Display();
