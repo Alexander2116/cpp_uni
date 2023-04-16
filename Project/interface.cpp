@@ -5,8 +5,73 @@ namespace myInterface{
     using namespace myACCircuit;
     using namespace myComplex;
 
-    Interface::Interface(){};
+    Interface::Interface(){
+        Clear();
+        MainMenu();
+    }
 
+    /* Private */
+    void Interface::EditCir(Circuit* circuit){
+
+    }
+    /* Public */
+    /*  Interface related functions  */
+    void Interface::WelcomeMessage(){
+        Clear();
+        std::cout << "";
+    }
+
+    void Interface::MainMenu(){
+        int _input;
+
+        WelcomeMessage();
+        while(!_exit_request){
+            std::cout << "***************" << std::endl;
+            std::cout << "1: Add Circuit" << std::endl;
+            std::cout << "2: Edit Circuit" << std::endl;
+            std::cout << "3: Combine Circuits" << std::endl;
+            std::cout << "4: Show All Components" << std::endl;
+            std::cout << "5: Exit Application" << std::endl;
+
+            std::cin >> _input;
+            try{
+                
+                switch(_input){
+                    case 1:
+                        AddCircuit();
+                        break;
+                    case 2:
+                        EditCircuit();
+                        break;
+                    case 3:
+                        CombineCircuits();
+                        break;
+                    case 4:
+                        ShowAllComponents();
+                        break;
+                    case 5:
+                        // Exit
+                        _exit_request = true;
+                        break;
+                }
+                Clear();
+            }
+            catch(...){
+                std::cout << "Incorrect input" << std::endl;
+            }
+        }
+    }
+    void Interface::AddCircuit(){
+        Circuit new_cir;
+        EditCir(&new_cir);
+        _circuits.push_back(new_cir);
+    }
+    void Interface::EditCircuit(){}
+    void Interface::ShowAllComponents(){}
+    void Interface::CombineCircuits(){}
+
+
+    /*  Graphics related functions  */
     // Display current layout 
     void Interface::Display(){
         UpdateGraphic();

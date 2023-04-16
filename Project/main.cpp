@@ -9,6 +9,8 @@ using namespace myComponents;
 using namespace myInterface;
 
 int main(){
+    Interface inter;
+    /*
     Circuit cir;
     
     std::vector<Component*> temp;
@@ -31,6 +33,7 @@ int main(){
     Interface inter;
     inter.UpdateObjects(cir.Get_objects());
     inter.Display();
+    */
     std::getchar();
     return 0;
 }

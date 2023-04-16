@@ -16,7 +16,7 @@ namespace myComponents{
             virtual complex GetImpedance();
             virtual double GetPhaseDifference()=0;
             virtual double GetImpedanceMagnitude();
-            virtual std::string GraphicRepresentation()=0;
+            virtual std::string GraphicRepresentation()=0; // Must be specific for each derived component
             virtual void SetFrequency(double frequency);
             virtual double GetFrequency();
     };
