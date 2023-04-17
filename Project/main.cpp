@@ -1,3 +1,4 @@
+#include<iostream>
 #include "circuit.hpp"
 #include "components.hpp"
 #include "complex.hpp"
@@ -10,6 +11,7 @@ using namespace myInterface;
 
 int main(){
     Interface inter;
+
     /*
     Circuit cir;
     

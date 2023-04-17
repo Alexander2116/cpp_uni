@@ -33,6 +33,10 @@ namespace myComponents{
     double Resistor::GetPhaseDifference(){
         return 0;
     }
+    void Resistor::Info(){
+        // u03a9 unicode escape for OMEGA
+        std::cout << "Resistor: " << _resistivity << "\u03a9";
+    }
 
     /* Capacitor*/
     Capacitor::Capacitor(double cap){
@@ -45,6 +49,9 @@ namespace myComponents{
     double Capacitor::GetPhaseDifference(){
         return 0;
     }
+    void Capacitor::Info(){
+        std::cout << "Capacitor: " << _capacitance << "pF";
+    }
     /* Inductor */
     Inductor::Inductor(double ind){
         _inductance = ind;
@@ -55,5 +62,8 @@ namespace myComponents{
     }
     double Inductor::GetPhaseDifference(){
         return 0;
+    }
+    void Inductor::Info(){
+        std::cout << "Inductor: " << _inductance<< "";
     }
 }

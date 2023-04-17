@@ -19,6 +19,7 @@ namespace myComponents{
             virtual std::string GraphicRepresentation()=0; // Must be specific for each derived component
             virtual void SetFrequency(double frequency);
             virtual double GetFrequency();
+            virtual void Info()=0;
     };
 
     class Resistor: public Component{
@@ -28,6 +29,7 @@ namespace myComponents{
             Resistor(double resistivity);
             double GetPhaseDifference();
             std::string GraphicRepresentation();
+            void Info();
     };
 
     class Capacitor: public Component{
@@ -37,6 +39,7 @@ namespace myComponents{
             Capacitor(double capacitance);
             double GetPhaseDifference();
             std::string GraphicRepresentation();
+            void Info();
     };
 
     class Inductor: public Component{
@@ -46,6 +49,7 @@ namespace myComponents{
             Inductor(double inductance);
             double GetPhaseDifference();
             std::string GraphicRepresentation();
+            void Info();
     };
 
     class AC_Source: public Component{
@@ -57,6 +61,7 @@ namespace myComponents{
             AC_Source(double vol, double freq, double cur);
             double GetPhaseDifference();
             std::string GraphicRepresentation();
+            void Info();
     };
     // alternative
     /*

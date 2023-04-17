@@ -16,13 +16,16 @@ namespace myInterface{
 
     class Interface{
         private:
-            vvc circuit_objects;
+            vvc current_circuit_objects;
             StringMatrix display_data;
-            std::vector<Circuit*> circuits;
+            std::vector<Circuit> _circuits;
             int x_size_window{1};
             int y_size_window{1};
             bool _exit_request{false};
             void EditCir(Circuit* circuit);
+            void AddComponent(); // Inside Circuit related
+            void EditComponent(); // Inside Circuit related
+            Component* CreateComponent();
         public:
             Interface();
             // Interface related functions
