@@ -14,13 +14,22 @@ namespace myInterface{
     void Interface::EditCir(Circuit* circuit){
         int _input;
         bool _go_back = false;
+        _current_circuit = circuit;
+        _current_circuit->Add_serial(new Resistor(4));
+        for(auto c1: _current_circuit->Get_objects()){            
+            for(auto c2: c1){
+                c2->Info();
+            }
+        }
         while(!_go_back){
+            std::cout << "**** Modifying currect circuit ****" << std::endl;
             std::cout << "1: Add component" << std::endl;
             std::cout << "2: Show circuit (graphical representation)" << std::endl;
             std::cout << "3: Show All Components (list)" << std::endl;
             std::cout << "4: Edit components" << std::endl;
             std::cout << "5: Go Back" << std::endl;
             std::cin >> _input;
+            Clear();
             try{
                 // Safe, because characters correstponding to 1-5 are system control characters
                 switch(_input){
@@ -30,13 +39,13 @@ namespace myInterface{
                         break;
                     // Show circuit (graphical representation)
                     case 2:
-                        current_circuit_objects = circuit->Get_objects();
+                        _current_circuit_objects = _current_circuit->Get_objects();
                         Display();
                         break;
                     // Show All Components (list)
                     case 3:
                         try{
-                            for(auto c1: circuit->Get_objects()){
+                            for(auto c1: _current_circuit->Get_objects()){
                                 
                                 for(auto c2: c1){
                                     c2->Info();
@@ -52,23 +61,75 @@ namespace myInterface{
                     // Go Back
                     case 5:
                         // Exit
-                        _exit_request = true;
+                        _go_back = true;
                         break;
                 }
-                Clear();
+                //Clear();
             }
             catch(...){}
         }
     }
 
     void Interface::AddComponent(){
+        int _input;
+        Component* rlc;
+        std::vector<Component*> rlcs;
+        std::cout << "**** Add Component to the Circuit ****" << std::endl;
         std::cout << "1: Add serial component to the next block (add one component)" << std::endl;
         std::cout << "2: Add parallel components to the next block (add many components)" << std::endl;
         std::cout << "3: Go Back" << std::endl;
+        std::cin >> _input;
+        switch(_input){
+            // Serial
+            case 1:
+                rlc = CreateComponent(); 
+                if(rlc != nullptr){
+                    _current_circuit->Add_serial(rlc);
+                }
+                else{
+                    std::cout << "Component couldn't be added" << std::endl;
+                }
+                break;
+            // Parallel
+            case 2:
+                rlcs = AddSerialComponents();
+                _current_circuit->Add_parallel(rlcs);
+                break;
+            // Exit
+            case 3:
+                break;
+        }
+
     }
+    // 
+    std::vector<Component*> Interface::AddSerialComponents(){
+        bool stop = false;
+        std::vector<Component*> temp_comp_list;
+        Component* temp_comp;
+        std::cout << "" << std::endl;
+        while(!stop){
+            temp_comp = CreateComponent();
+            if(temp_comp != NULL){
+                temp_comp_list.push_back(temp_comp);
+            }
+            else{
+                std::cout << "Adding the component was unsuccessful" << std::endl;
+            }
+            std::cout << "Would like like to add another component? [y|n] " << std::endl; 
+            // yes return true, so if returns "false" then end the loop
+            stop = (AskToTerminate() == false);
+        }
+        return temp_comp_list;
+    }
+
     void Interface::EditComponent(){
         std::cout << "What component would you like to edit?" << std::endl;
     }
+
+    // Allows to create a component,
+    // I could think about better implementation - without returning resistor(0)
+    // To work correctly check if not==null
+    /// Return: Component if correct, nullptr if incorrect/error/exit
     Component* Interface::CreateComponent(){
         Component* rlc;
         int _input;
@@ -77,30 +138,41 @@ namespace myInterface{
         std::cout << "1: Resistor" << std::endl;
         std::cout << "2: Capacitor" << std::endl;
         std::cout << "3: Inductor" << std::endl;
+        std::cout << "4: Exit" << std::endl;
         std::cin >> _input;
         try{
             switch(_input){
                 // Resistor
                 case 1:
-                    std::cout << "please enter resistance [\u03a9]: ";
+                    // \u03a9, unicode for OMEGA
+                    std::cout << "Enter resistance [\u03a9]: ";
                     std::cin >> _value;
-                    *rlc = Resistor(_value);
+                    rlc = new Resistor(_value);
                     break;
                 // Capacitor
                 case 2:
-                    std::cout << "please enter capacitance [pF]: ";
+                    std::cout << "Enter capacitance [pF]: ";
                     std::cin >> _value;
-                    *rlc = Capacitor(_value);
+                    rlc = new Capacitor(_value);
                     break;
                 // Inductor
                 case 3:
-                    std::cout << "please enter inductance [H]: ";
+                    std::cout << "Enter inductance [H]: ";
                     std::cin >> _value;
-                    *rlc = Inductor(_value);
+                    rlc = new Inductor(_value);
                     break;
+                // Exit
+                case 4: 
+                    std::cout << "Going back" << std::endl;
+                    return nullptr;
+
             }
             return rlc;
-        }catch(...){return rlc;}
+        }
+        catch(...){
+            std::cout << "Incorrect item" << std::endl;
+            return nullptr;
+        }
     }
     /* Public */
     /*  Interface related functions  */
@@ -115,7 +187,7 @@ namespace myInterface{
 
         WelcomeMessage();
         while(!_exit_request){
-            std::cout << "***************" << std::endl;
+            std::cout << "**** Main Menu ****" << std::endl;
             std::cout << "1: Add New Circuit" << std::endl;
             std::cout << "2: Edit Circuit" << std::endl;
             std::cout << "3: Combine Circuits" << std::endl;
@@ -153,13 +225,21 @@ namespace myInterface{
         }
     }
     void Interface::AddCircuit(){
+        Clear();
+        std::cout << "**** Add new circuit ****"<< std::endl;
         Circuit new_cir;
         EditCir(&new_cir);
         _circuits.push_back(new_cir);
     }
-    void Interface::EditCircuit(){}
-    void Interface::ShowAllComponents(){}
-    void Interface::CombineCircuits(){}
+    void Interface::EditCircuit(){
+        Clear();
+    }
+    void Interface::ShowAllComponents(){
+        Clear();
+    }
+    void Interface::CombineCircuits(){
+        Clear();
+    }
 
 
     /*  Graphics related functions  */
@@ -191,9 +271,9 @@ namespace myInterface{
 
     // Updates the display matrix
     void Interface::UpdateGraphic(){
-        x_size_window = current_circuit_objects.size();
+        x_size_window = _current_circuit_objects.size();
 
-        for(auto obj : current_circuit_objects){
+        for(auto obj : _current_circuit_objects){
             if(obj.size() > y_size_window){
                 y_size_window = obj.size();
             }
@@ -202,18 +282,19 @@ namespace myInterface{
         display_data = StringMatrix(y_size_window,x_size_window); // y rows and x columns
         // Vector object (circuit_object) index starts with 0
         // Matrix index starts with 1
-        for(int i=1; i <= current_circuit_objects.size(); i++){
-            for(int j=1; j <= current_circuit_objects[i-1].size(); j++){
-                display_data(j,i) = current_circuit_objects[i-1][j-1]->GraphicRepresentation();
+        for(int i=1; i <= _current_circuit_objects.size(); i++){
+            for(int j=1; j <= _current_circuit_objects[i-1].size(); j++){
+                display_data(j,i) = _current_circuit_objects[i-1][j-1]->GraphicRepresentation();
             }
         }
 
     }
 
     void Interface::UpdateObjects(vvc add_current_circuit_objects){
-        current_circuit_objects = add_current_circuit_objects;
+        _current_circuit_objects = add_current_circuit_objects;
     }
 
+    /*  Outside-Class functions*/
 
     void Clear(){
         #if defined _WIN32
@@ -224,4 +305,30 @@ namespace myInterface{
             system("clear");
         #endif
     }
+
+    // Ask user to provide "y" or "n" 
+    // "y" returns true, "n" returns false
+    bool AskToTerminate(){
+        // User's input
+        std::string _input;
+        std::cin >> _input;
+
+        // Validate input
+        while(true){
+            if(_input == "Y" || _input == "y"){
+                return true;
+            }
+            else if(_input == "N" || _input == "n"){
+                return false;
+            }
+            else{
+                std::cout << "SORRY, I do not understand what you want to do" << std::endl;
+                std::cout << "Enter [y|n] ";
+                std::cin.clear();
+                std::cin.ignore();
+                std::cin >> _input;
+            }
+        }
+    }
+
 }

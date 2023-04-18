@@ -36,6 +36,5 @@ int main(){
     inter.UpdateObjects(cir.Get_objects());
     inter.Display();
     */
-    std::getchar();
     return 0;
 }

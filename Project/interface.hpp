@@ -16,18 +16,19 @@ namespace myInterface{
 
     class Interface{
         private:
-            vvc current_circuit_objects;
+            Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
+            vvc _current_circuit_objects;
             StringMatrix display_data;
             std::vector<Circuit> _circuits;
             int x_size_window{1};
             int y_size_window{1};
             bool _exit_request{false};
-            void EditCir(Circuit* circuit);
+            void EditCir(Circuit* circuit); // Edits given circuit (has interface)
             void AddComponent(); // Inside Circuit related
             void EditComponent(); // Inside Circuit related
+            std::vector<Component*> AddSerialComponents();
             Component* CreateComponent();
-        public:
-            Interface();
+        protected:
             // Interface related functions
             void WelcomeMessage();
             void MainMenu();
@@ -40,10 +41,14 @@ namespace myInterface{
             void Display();
             void UpdateGraphic();
             void UpdateObjects(vvc add_circuit_objects);
+        public:
+            Interface();
     };
 
     // Clears terminal. Depending of OS different command is called
     void Clear();
+    bool AskToTerminate();
+
 
 }
 
