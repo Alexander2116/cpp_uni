@@ -30,6 +30,7 @@ namespace myACCircuit{
             double GetEMF();
             complex GetImpedance();
             double GetPhaseDifference();
+            void Info();
     };
 
 }

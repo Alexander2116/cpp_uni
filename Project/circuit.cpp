@@ -75,4 +75,8 @@ namespace myACCircuit{
     double Circuit::GetPhaseDifference(){
         return _impedance.get_argument();
     }
+
+    void Circuit::Info(){
+        std::cout << "This circuit has " << circuit_objects.size() << " components";
+    }
 }

@@ -35,7 +35,7 @@ namespace myComponents{
     }
     void Resistor::Info(){
         // u03a9 unicode escape for OMEGA
-        std::cout << "Resistor: " << _resistivity << "\u03a9";
+        std::cout << "Resistor: " << _resistivity << "Ω" << std::endl;
     }
 
     /* Capacitor*/

@@ -15,12 +15,6 @@ namespace myInterface{
         int _input;
         bool _go_back = false;
         _current_circuit = circuit;
-        _current_circuit->Add_serial(new Resistor(4));
-        for(auto c1: _current_circuit->Get_objects()){            
-            for(auto c2: c1){
-                c2->Info();
-            }
-        }
         while(!_go_back){
             std::cout << "**** Modifying currect circuit ****" << std::endl;
             std::cout << "1: Add component" << std::endl;
@@ -29,21 +23,25 @@ namespace myInterface{
             std::cout << "4: Edit components" << std::endl;
             std::cout << "5: Go Back" << std::endl;
             std::cin >> _input;
-            Clear();
+            //Clear();
             try{
                 // Safe, because characters correstponding to 1-5 are system control characters
                 switch(_input){
                     // Add component
                     case 1:
                         AddComponent();
+                        Clear();
                         break;
                     // Show circuit (graphical representation)
                     case 2:
+                        Clear();
                         _current_circuit_objects = _current_circuit->Get_objects();
                         Display();
                         break;
                     // Show All Components (list)
                     case 3:
+                        Clear();
+                        std::cout << "List of the objects: " << std::endl;
                         try{
                             for(auto c1: _current_circuit->Get_objects()){
                                 
@@ -57,16 +55,18 @@ namespace myInterface{
                     // Edit components
                     case 4:
                         EditComponent();
+                        Clear();
                         break;
                     // Go Back
                     case 5:
-                        // Exit
                         _go_back = true;
                         break;
                 }
                 //Clear();
             }
             catch(...){}
+            std::cin.clear();
+            std::cin.ignore();
         }
     }
 
@@ -118,6 +118,7 @@ namespace myInterface{
             std::cout << "Would like like to add another component? [y|n] " << std::endl; 
             // yes return true, so if returns "false" then end the loop
             stop = (AskToTerminate() == false);
+            Clear();
         }
         return temp_comp_list;
     }
@@ -144,8 +145,8 @@ namespace myInterface{
             switch(_input){
                 // Resistor
                 case 1:
-                    // \u03a9, unicode for OMEGA
-                    std::cout << "Enter resistance [\u03a9]: ";
+                    // \u03a9, \u2126, unicode for OMEGA
+                    std::cout << "Enter resistance [\u2126]: ";
                     std::cin >> _value;
                     rlc = new Resistor(_value);
                     break;
@@ -174,6 +175,15 @@ namespace myInterface{
             return nullptr;
         }
     }
+    
+    void Interface::PrintCircuits(){
+        for(int i=0; i<_circuits.size(); i++){
+            std::cout << i << ": ";
+            _circuits[i].Info();
+            std::cout << std::endl;
+        }
+    }
+    
     /* Public */
     /*  Interface related functions  */
     void Interface::WelcomeMessage(){
@@ -191,7 +201,7 @@ namespace myInterface{
             std::cout << "1: Add New Circuit" << std::endl;
             std::cout << "2: Edit Circuit" << std::endl;
             std::cout << "3: Combine Circuits" << std::endl;
-            std::cout << "4: Show All Components" << std::endl;
+            std::cout << "4: Show All Circuits" << std::endl;
             std::cout << "5: Exit Application" << std::endl;
 
             std::cin >> _input;
@@ -208,7 +218,7 @@ namespace myInterface{
                         CombineCircuits();
                         break;
                     case 4:
-                        ShowAllComponents();
+                        ShowAllCircuits();
                         break;
                     case 5:
                         // Exit
@@ -232,9 +242,41 @@ namespace myInterface{
         _circuits.push_back(new_cir);
     }
     void Interface::EditCircuit(){
+        int _input;
+        bool stop = false;
         Clear();
+        std::cout << "**** Available circuits *****" << std::endl;
+        PrintCircuits();
+        std::cout << std::endl;
+        std::cout << "**** Edit Circuit ****" << std::endl;
+        while(!stop){
+            std::cout << "1: Select circuit to edit" << std::endl;
+            std::cout << "2: Exit" << std::endl;
+
+            std::cin >> _input;
+            try{
+                // Safe, because characters correstponding to 1-5 are system control characters
+                switch(_input){
+                    case 1:
+                        std::cout << "Index of the circuit: ";
+                        std::cin >> _input; 
+                        EditCir(&_circuits[_input]);
+                        break;
+                    case 2:
+                        stop = true;
+                        break;
+                }
+                Clear();
+            }
+            catch(...){
+                std::cout << "Incorrect input" << std::endl;
+            }
+            std::cin.clear();
+            std::cin.ignore();
+
+        }
     }
-    void Interface::ShowAllComponents(){
+    void Interface::ShowAllCircuits(){
         Clear();
     }
     void Interface::CombineCircuits(){
@@ -267,6 +309,7 @@ namespace myInterface{
         for(int i=0; i<x_size_window*7; i++){
             std::cout << "*";
         }
+        std::cout << std::endl;
     }
 
     // Updates the display matrix

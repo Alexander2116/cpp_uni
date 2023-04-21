@@ -28,13 +28,14 @@ namespace myInterface{
             void EditComponent(); // Inside Circuit related
             std::vector<Component*> AddSerialComponents();
             Component* CreateComponent();
+            void PrintCircuits();
         protected:
             // Interface related functions
             void WelcomeMessage();
             void MainMenu();
             void AddCircuit();
             void EditCircuit();
-            void ShowAllComponents();
+            void ShowAllCircuits();
             void CombineCircuits();
 
             // Graphics related functions
