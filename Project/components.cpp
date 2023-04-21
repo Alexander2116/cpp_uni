@@ -50,7 +50,7 @@ namespace myComponents{
         return 0;
     }
     void Capacitor::Info(){
-        std::cout << "Capacitor: " << _capacitance << "pF";
+        std::cout << "Capacitor: " << _capacitance << "pF" << std::endl;
     }
     /* Inductor */
     Inductor::Inductor(double ind){
@@ -64,6 +64,6 @@ namespace myComponents{
         return 0;
     }
     void Inductor::Info(){
-        std::cout << "Inductor: " << _inductance<< "";
+        std::cout << "Inductor: " << _inductance<< "H" << std::endl;
     }
 }
