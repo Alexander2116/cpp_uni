@@ -16,27 +16,30 @@ namespace myInterface{
 
     class Interface{
         private:
+            // var
             Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
-            vvc _current_circuit_objects;
-            StringMatrix display_data;
-            std::vector<Circuit> _circuits;
-            int x_size_window{1};
-            int y_size_window{1};
-            bool _exit_request{false};
+            vvc _current_circuit_objects; // temporary, vvc for selected circuit (currently used)
+            StringMatrix display_data; // Matrix for graphics
+            std::vector<Circuit> _circuits; // List of all stored circuits
+            int x_size_window{1}; // x size of the display
+            int y_size_window{1}; // y size of the display
+            bool _exit_request{false}; // fully exit the program if true
+            // fun
             void EditCir(Circuit* circuit); // Edits given circuit (has interface)
-            void AddComponent(); // Inside Circuit related
-            void EditComponent(); // Inside Circuit related
-            std::vector<Component*> AddSerialComponents();
-            Component* CreateComponent();
-            void PrintCircuits();
+            void AddComponent(); // Inside Circuit related - interface to add a component
+            void EditComponent(); // Inside Circuit related - interface to edit a component
+            std::vector<Component*> AddSerialComponents(); // interface to add a component in series
+            Component* CreateComponent(); // Interface to create a component
+            void PrintCircuits(); // Prints the list of all saved circuits (index: items in circuit)
+        // Protected - shouldn't be able to access as public to avoid misuse
         protected:
             // Interface related functions
             void WelcomeMessage();
-            void MainMenu();
-            void AddCircuit();
-            void EditCircuit();
-            void ShowAllCircuits();
-            void CombineCircuits();
+            void MainMenu(); // Main interface - starting
+            void AddCircuit(); // Option in the main interface
+            void EditCircuit(); // Option in the main interface
+            void ShowAllCircuits(); // Option in the main interface
+            void CombineCircuits(); // Option in the main interface
 
             // Graphics related functions
             void Display();

@@ -62,6 +62,9 @@ namespace myInterface{
                     case 5:
                         _go_back = true;
                         break;
+                    default:
+                        Clear();
+                        break;
                 }
                 //Clear();
             }
@@ -149,7 +152,7 @@ namespace myInterface{
                     std::cout << "2: Replace to new Capacitor" << std::endl;
                     std::cout << "3: Replace to new Inductor" << std::endl;
                     std::cout << "4: Remove" << std::endl;
-                    std::cout << "5: Go back" << std::endl;
+                    std::cout << "Any character: Go back" << std::endl;
                     std::cin >> _input;
                     switch(_input){
                         // Resistor
@@ -173,6 +176,7 @@ namespace myInterface{
                             break;
                         // Remove
                         case 4: 
+                            // Check if works
                             _current_circuit_objects[idx_i].erase(_current_circuit_objects[idx_i].begin() + idx_j);
                             break;
                         // Exit
@@ -292,7 +296,7 @@ namespace myInterface{
                 std::cout << "Incorrect input" << std::endl;
             }
             std::cin.clear();
-            //std::cin.ignore();
+            std::cin.ignore();
         }
     }
     void Interface::AddCircuit(){
@@ -300,7 +304,9 @@ namespace myInterface{
         std::cout << "**** Add new circuit ****"<< std::endl;
         Circuit new_cir;
         EditCir(&new_cir);
-        _circuits.push_back(new_cir);
+        if(new_cir.Get_objects().size()>0){
+            _circuits.push_back(new_cir);
+        }
     }
     void Interface::EditCircuit(){
         int _input;
