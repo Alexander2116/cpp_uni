@@ -16,6 +16,7 @@ namespace myACCircuit{
             complex _impedance; // Thevenin impedance of the circuit
             double _efm;
             static int _id;
+            double _frequency{1};
 
         protected:
             // these functions shouldn't be accessed publicly because they have no self-standing meaning
@@ -24,6 +25,7 @@ namespace myACCircuit{
         public:
             Circuit();
             ~Circuit();
+            void Set_Frequency(double freq);
             void Add_serial(Component* new_component);
             void Add_parallel(std::vector<Component*> new_components);
             vvc Get_objects();

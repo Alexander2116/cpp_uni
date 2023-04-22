@@ -47,10 +47,14 @@ namespace myACCircuit{
 
     void Circuit::Add_serial(Component* new_component){
         std::vector<Component*> temp;
+        new_component->SetFrequency(_frequency);
         temp.push_back(new_component);
         circuit_objects.push_back(temp);
     }
     void Circuit::Add_parallel(std::vector<Component*> new_components){
+        for(auto& comp : new_components){
+            comp->SetFrequency(_frequency);
+        }
         circuit_objects.push_back(new_components);
     }
     vvc Circuit::Get_objects(){

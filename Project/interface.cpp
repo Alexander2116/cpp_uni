@@ -11,6 +11,12 @@ namespace myInterface{
         Clear();
         MainMenu();
     }
+    Interface::~Interface(){
+        _current_circuit = nullptr;
+        _current_circuit_objects.clear(); 
+        display_data.~StringMatrix(); 
+        _circuits.clear();
+    }
 
     /* Private */
     void Interface::EditCir(Circuit* circuit){
