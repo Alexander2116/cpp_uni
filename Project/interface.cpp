@@ -1,3 +1,5 @@
+// interface.cpp
+
 #include "interface.hpp"
 
 namespace myInterface{
@@ -70,7 +72,7 @@ namespace myInterface{
             }
             catch(...){}
             std::cin.clear();
-            //std::cin.ignore();
+            std::cin.ignore();
         }
     }
 
@@ -120,7 +122,7 @@ namespace myInterface{
                 std::cout << "Adding the component was unsuccessful" << std::endl;
             }
             std::cout << "Would like like to add another component? [y|n] " << std::endl; 
-            // yes return true, so if returns "false" then end the loop
+            // 'yes' return true, so if returns "false" then end the loop
             stop = (AskToTerminate() == false);
             Clear();
         }
@@ -265,9 +267,8 @@ namespace myInterface{
             std::cout << "**** Main Menu ****" << std::endl;
             std::cout << "1: Add New Circuit" << std::endl;
             std::cout << "2: Edit Circuit" << std::endl;
-            std::cout << "3: Combine Circuits" << std::endl;
-            std::cout << "4: Show All Circuits" << std::endl;
-            std::cout << "5: Exit Application" << std::endl;
+            std::cout << "3: Show All Circuits" << std::endl;
+            std::cout << "4: Exit Application" << std::endl;
 
             std::cin >> _input;
             try{
@@ -280,12 +281,9 @@ namespace myInterface{
                         EditCircuit();
                         break;
                     case 3:
-                        CombineCircuits();
-                        break;
-                    case 4:
                         ShowAllCircuits();
                         break;
-                    case 5:
+                    case 4:
                         // Exit
                         _exit_request = true;
                         break;
@@ -340,13 +338,13 @@ namespace myInterface{
                     case 2:
                         stop = true;
                         break;
+                    default:
+                        Clear();
                 }
             }
-            catch(...){
-                std::cout << "Incorrect input" << std::endl;
-            }
+            catch(...){std::cout << "Incorrect input" << std::endl;}
             std::cin.clear();
-            //std::cin.ignore();
+            std::cin.ignore();
 
         }
     }
@@ -356,12 +354,12 @@ namespace myInterface{
         std::cout << "**** Available circuits *****" << std::endl;
         PrintCircuits();
         std::cout << std::endl;
-        std::cout << "Press any button to go back ";
-        std::cin.ignore();
+        //std::cout << "Press any button to go back "; // Function below provides the message 
+        PressAnyButtonToContinue();
     }
-    void Interface::CombineCircuits(){
+    /*void Interface::CombineCircuits(){
         Clear();
-    }
+    }*/
 
 
     /*  Graphics related functions  */
@@ -448,10 +446,20 @@ namespace myInterface{
                 std::cout << "SORRY, I do not understand what you want to do" << std::endl;
                 std::cout << "Enter [y|n] ";
                 std::cin.clear();
-                //std::cin.ignore();
+                std::cin.ignore();
                 std::cin >> _input;
             }
         }
     }
 
+
+    void PressAnyButtonToContinue(){
+        #if defined _WIN32
+            system("pause");
+        #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+            system("read");
+        #elif defined (__APPLE__)
+            system("read");
+        #endif
+    }
 }

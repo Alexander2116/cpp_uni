@@ -1,4 +1,4 @@
-// circuit.cpp
+// matrix.cpp
 
 #include "matrix.hpp"
 

@@ -2,6 +2,10 @@
 #define COMPONENTS_H
 
 #include "complex.hpp"
+#include <math.h>
+#include <string>
+#include <limits>
+#include <vector>
 
 namespace myComponents{
     using namespace myComplex;
@@ -14,7 +18,7 @@ namespace myComponents{
             Component();
             ~Component();
             virtual complex GetImpedance();
-            virtual double GetPhaseDifference()=0;
+            virtual double GetPhaseDifference();
             virtual double GetImpedanceMagnitude();
             virtual std::string GraphicRepresentation()=0; // Must be specific for each derived component
             virtual void SetFrequency(double frequency);
@@ -27,7 +31,6 @@ namespace myComponents{
             double _resistivity;
         public:
             Resistor(double resistivity);
-            double GetPhaseDifference();
             std::string GraphicRepresentation();
             void Info();
     };
@@ -37,7 +40,6 @@ namespace myComponents{
             double _capacitance;
         public:
             Capacitor(double capacitance);
-            double GetPhaseDifference();
             std::string GraphicRepresentation();
             void Info();
     };
@@ -47,7 +49,6 @@ namespace myComponents{
             double _inductance;
         public:
             Inductor(double inductance);
-            double GetPhaseDifference();
             std::string GraphicRepresentation();
             void Info();
     };
@@ -59,7 +60,6 @@ namespace myComponents{
             double _current;
         public:
             AC_Source(double vol, double freq, double cur);
-            double GetPhaseDifference();
             std::string GraphicRepresentation();
             void Info();
     };

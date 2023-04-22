@@ -1,4 +1,5 @@
 // components.cpp
+
 #include "components.hpp"
 #define _USE_MATH_DEFINES
 
@@ -18,6 +19,9 @@ namespace myComponents{
     complex Component::GetImpedance(){
         return _impedance;
     }
+    double Component::GetPhaseDifference(){
+        return _impedance.get_argument();
+    }
     double Component::GetImpedanceMagnitude(){
         return _impedance.get_modulus();
     }
@@ -29,9 +33,6 @@ namespace myComponents{
     }
     std::string Resistor::GraphicRepresentation(){
         return "-/\\/\\/-"; // will show -/\/\/-, \ is an escape character
-    }
-    double Resistor::GetPhaseDifference(){
-        return 0;
     }
     void Resistor::Info(){
         // u03a9 unicode escape for OMEGA
@@ -46,9 +47,6 @@ namespace myComponents{
     std::string Capacitor::GraphicRepresentation(){
         return "--| |--";
     }
-    double Capacitor::GetPhaseDifference(){
-        return 0;
-    }
     void Capacitor::Info(){
         std::cout << "Capacitor: " << _capacitance << "pF" << std::endl;
     }
@@ -59,9 +57,6 @@ namespace myComponents{
     }
     std::string Inductor::GraphicRepresentation(){
         return "--ooo--";
-    }
-    double Inductor::GetPhaseDifference(){
-        return 0;
     }
     void Inductor::Info(){
         std::cout << "Inductor: " << _inductance<< "H" << std::endl;

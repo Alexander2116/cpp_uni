@@ -18,6 +18,7 @@ namespace myInterface{
         private:
             // var
             Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
+            // vvc - "vector vector circuit" - defined in circuit.hpp
             vvc _current_circuit_objects; // temporary, vvc for selected circuit (currently used)
             StringMatrix display_data; // Matrix for graphics
             std::vector<Circuit> _circuits; // List of all stored circuits
@@ -52,6 +53,7 @@ namespace myInterface{
     // Clears terminal. Depending of OS different command is called
     void Clear();
     bool AskToTerminate();
+    void PressAnyButtonToContinue();
 
 
 }
