@@ -307,6 +307,7 @@ namespace myInterface{
         Clear();
         std::cout << "**** Add new circuit ****"<< std::endl;
         Circuit new_cir;
+        
         EditCir(&new_cir);
         if(new_cir.Get_objects().size()>0){
             _circuits.push_back(new_cir);

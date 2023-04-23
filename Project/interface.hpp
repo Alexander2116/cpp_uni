@@ -18,7 +18,7 @@ namespace myInterface{
         private:
             // var
             Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
-            // vvc - "vector vector circuit" - defined in circuit.hpp
+            // vvc - "vector vector component" - defined in circuit.hpp
             vvc _current_circuit_objects; // temporary, vvc for selected circuit (currently used)
             StringMatrix display_data; // Matrix for graphics
             std::vector<Circuit> _circuits; // List of all stored circuits
@@ -40,7 +40,7 @@ namespace myInterface{
             void AddCircuit(); // Option in the main interface
             void EditCircuit(); // Option in the main interface
             void ShowAllCircuits(); // Option in the main interface
-            void CombineCircuits(); // Option in the main interface
+            //void CombineCircuits(); // Option in the main interface
 
             // Graphics related functions
             void Display();
@@ -48,6 +48,7 @@ namespace myInterface{
             void UpdateObjects(vvc add_circuit_objects);
         public:
             Interface();
+            ~Interface();
     };
 
     // Clears terminal. Depending of OS different command is called

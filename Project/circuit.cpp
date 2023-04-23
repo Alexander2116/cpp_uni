@@ -21,6 +21,10 @@ namespace myACCircuit{
         First: Calculate parallel blokes of components
         Second Calculate serial blokes of impedances 
     */
+   void Circuit::Set_Frequency(double freq){
+        _frequency = freq;
+   }
+
     // Adding parallel impadances: 1/Z = 1/Z1 + 1/Z2 + ...
     std::vector<complex> Circuit::calc_parallel(vvc circuit_objects_list){
         std::vector<complex> impedance_series;

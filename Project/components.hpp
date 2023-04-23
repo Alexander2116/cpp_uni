@@ -2,10 +2,6 @@
 #define COMPONENTS_H
 
 #include "complex.hpp"
-#include <math.h>
-#include <string>
-#include <limits>
-#include <vector>
 
 namespace myComponents{
     using namespace myComplex;
