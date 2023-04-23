@@ -6,7 +6,20 @@ namespace myACCircuit{
     using namespace myComponents;
 
     Circuit::Circuit(){
+        _is_combined = false;
         _impedance = complex(0,0);
+    }
+
+    Circuit::Circuit(Circuit a, Circuit b, bool serial){
+        _is_combined = true;
+        if(serial == true){
+            _impedance = a.GetImpedance() + b.GetImpedance();
+            // Objects
+        }
+        else{
+            _impedance = 1/(1/a.GetImpedance() + 1/b.GetImpedance());
+            // Objects
+        }
     }
 
     Circuit::~Circuit(){
@@ -70,14 +83,19 @@ namespace myACCircuit{
     complex Circuit::GetImpedance(){
         // Just in case if circuit_objects is empty. complex(0,0) should be returned anyway looking at calc_serial() structure
         // Alternatively I could use if(obj != null)
-        try{
-            _impedance = calc_serial(calc_parallel(circuit_objects));
+        if(!_is_combined){
+            try{
+                _impedance = calc_serial(calc_parallel(circuit_objects));
+            }
+            catch(...){
+                std::cout << "Impedance couldn't be calculated. Perhaps list of objects is empty" << std::endl;
+                _impedance = complex(0,0);
+            }
+            return _impedance;
         }
-        catch(...){
-            std::cout << "Impedance couldn't be calculated. Perhaps list of objects is empty" << std::endl;
-            _impedance = complex(0,0);
+        else{
+            return _impedance;
         }
-        return _impedance;
     }
 
     double Circuit::GetPhaseDifference(){
@@ -85,6 +103,15 @@ namespace myACCircuit{
     }
 
     void Circuit::Info(){
-        std::cout << "This circuit has " << circuit_objects.size() << " components";
+        int count=0;
+        for(auto a: circuit_objects){
+            for(auto b: a){
+                // Empty component is not an actual component
+                if(b->CompName() != "Empty"){
+                    count += 1;
+                }
+            }
+        }
+        std::cout << "This circuit has " << count << " components";
     }
 }

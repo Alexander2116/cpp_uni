@@ -38,6 +38,9 @@ namespace myComponents{
         // u03a9 unicode escape for OMEGA
         std::cout << "Resistor: " << _resistivity << "Ω" << std::endl;
     }
+    std::string Resistor::CompName(){
+        return "Resistor";
+    }
 
     /* Capacitor*/
     Capacitor::Capacitor(double cap){
@@ -50,6 +53,10 @@ namespace myComponents{
     void Capacitor::Info(){
         std::cout << "Capacitor: " << _capacitance << "pF" << std::endl;
     }
+    std::string Capacitor::CompName(){
+        return "Capacitor";
+    }
+
     /* Inductor */
     Inductor::Inductor(double ind){
         _inductance = ind;
@@ -60,5 +67,8 @@ namespace myComponents{
     }
     void Inductor::Info(){
         std::cout << "Inductor: " << _inductance<< "H" << std::endl;
+    }
+    std::string Inductor::CompName(){
+        return "Inductor";
     }
 }

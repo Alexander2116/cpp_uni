@@ -31,6 +31,7 @@ namespace myACCircuit{
             vvc Get_objects();
             double GetEMF();
             complex GetImpedance();
+            void SetImpedance(complex impedance); // Used when creating a combined circuit
             double GetPhaseDifference();
             void Info();
     };
