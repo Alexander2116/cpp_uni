@@ -17,13 +17,14 @@ namespace myACCircuit{
             double _efm;
             static int _id;
             double _frequency{1};
-
+            bool _is_combined = false;
         protected:
             // these functions shouldn't be accessed publicly because they have no self-standing meaning
             complex calc_serial(std::vector<complex> impedancies); // gives impedance for serial components
             std::vector<complex> calc_parallel(vvc circuit_objects_list); // gives impedance for parallel components
         public:
-            Circuit();
+            Circuit(); // not combined in default
+            Circuit(Circuit a, Circuit b, bool serial); // allows to create a combined circuit
             ~Circuit();
             void Set_Frequency(double freq);
             void Add_serial(Component* new_component);

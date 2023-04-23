@@ -40,7 +40,7 @@ namespace myInterface{
             void AddCircuit(); // Option in the main interface
             void EditCircuit(); // Option in the main interface
             void ShowAllCircuits(); // Option in the main interface
-            //void CombineCircuits(); // Option in the main interface
+            void CombineCircuits(); // Option in the main interface
 
             // Graphics related functions
             void Display();

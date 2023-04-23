@@ -71,4 +71,14 @@ namespace myComponents{
     std::string Inductor::CompName(){
         return "Inductor";
     }
+
+    /* Empty */
+    EmptyComp::EmptyComp(){}
+    std::string Inductor::GraphicRepresentation(){
+        return "       ";
+    }
+    void Inductor::Info(){}
+    std::string Inductor::CompName(){
+        return "Empty";
+    }
 }

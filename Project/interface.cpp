@@ -364,9 +364,14 @@ namespace myInterface{
         //std::cout << "Press any button to go back "; // Function below provides the message 
         PressAnyButtonToContinue();
     }
-    /*void Interface::CombineCircuits(){
+    void Interface::CombineCircuits(){
+        int c1, c2;
         Clear();
-    }*/
+        std::cout << "**** Available circuits *****" << std::endl;
+        PrintCircuits();
+        std::cout << "What two circuits would you like to combine? [i j]" << std::endl;
+        std::cin >> c1 >> c2;
+    }
 
 
     /*  Graphics related functions  */

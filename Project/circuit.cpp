@@ -12,12 +12,47 @@ namespace myACCircuit{
 
     Circuit::Circuit(Circuit a, Circuit b, bool serial){
         _is_combined = true;
+        _frequency = a._frequency;
+        b._frequency = _frequency;
         if(serial == true){
+            
             _impedance = a.GetImpedance() + b.GetImpedance();
+            circuit_objects = a.Get_objects();
+            for(auto c : b.Get_objects()){
+                circuit_objects.push_back(c);
+            }
             // Objects
         }
         else{
             _impedance = 1/(1/a.GetImpedance() + 1/b.GetImpedance());
+            int max_size = 0;
+            for(auto c: a.Get_objects()){
+                if(c.size() > max_size){
+                    max_size = c.size();
+                }
+            }
+            circuit_objects = a.Get_objects();
+            // Get circuits to the same x-size
+            if(b.Get_objects().size() > a.Get_objects().size()){
+                for(int i=0; i < (b.Get_objects().size() - a.Get_objects().size()); i++){
+                    std::vector<Component*> a;
+                    a.push_back(new EmptyComp());
+                    circuit_objects.push_back(a);
+                }
+            }
+            // Create space for the add circuit (must be separated by an empty line)
+            for(auto c: circuit_objects){
+                for(int i=0; i < (max_size - c.size()+1); i++){
+                    c.push_back(new EmptyComp());
+                }
+            }
+            // Add b circuit to the circuit_objects
+            for(auto c: b.Get_objects()){
+                for(int i=0; i < b.Get_objects().size();i++){
+                    for(int j=0; j < c.size();j++)
+                    circuit_objects[i].push_back(c[j]);
+                }
+            }
             // Objects
         }
     }
@@ -34,10 +69,6 @@ namespace myACCircuit{
         First: Calculate parallel blokes of components
         Second Calculate serial blokes of impedances 
     */
-   void Circuit::Set_Frequency(double freq){
-        _frequency = freq;
-   }
-
     // Adding parallel impadances: 1/Z = 1/Z1 + 1/Z2 + ...
     std::vector<complex> Circuit::calc_parallel(vvc circuit_objects_list){
         std::vector<complex> impedance_series;
@@ -45,6 +76,7 @@ namespace myACCircuit{
             complex temp(0,0);
             // Adding parallel
             for(auto component : list_of_components){
+                component->SetFrequency(_frequency);
                 temp += 1/(component->GetImpedance());
             }
             impedance_series.push_back(1/temp);
@@ -61,6 +93,10 @@ namespace myACCircuit{
             return temp;
     } // gives impedance for serial components
     // *****************************************
+    void Circuit::Set_Frequency(double freq){
+        _frequency = freq;
+        GetImpedance();
+    }
 
     void Circuit::Add_serial(Component* new_component){
         std::vector<Component*> temp;
@@ -112,6 +148,6 @@ namespace myACCircuit{
                 }
             }
         }
-        std::cout << "This circuit has " << count << " components";
+        std::cout << "This circuit has " << count << " components and is supplied with " << _frequency << " Hz";
     }
 }

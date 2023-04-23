@@ -20,6 +20,7 @@ namespace myComponents{
             virtual void SetFrequency(double frequency);
             virtual double GetFrequency();
             virtual void Info()=0;
+            virtual std::string CompName()=0;
     };
 
     class Resistor: public Component{
@@ -29,6 +30,7 @@ namespace myComponents{
             Resistor(double resistivity);
             std::string GraphicRepresentation();
             void Info();
+            std::string CompName();
     };
 
     class Capacitor: public Component{
@@ -38,6 +40,7 @@ namespace myComponents{
             Capacitor(double capacitance);
             std::string GraphicRepresentation();
             void Info();
+            std::string CompName();
     };
 
     class Inductor: public Component{
@@ -47,6 +50,15 @@ namespace myComponents{
             Inductor(double inductance);
             std::string GraphicRepresentation();
             void Info();
+            std::string CompName();
+    };
+
+    class EmptyComp: public Component{
+        public:
+            EmptyComp();
+            std::string GraphicRepresentation();
+            void Info();
+            std::string CompName();
     };
 
     class AC_Source: public Component{
