@@ -108,7 +108,7 @@ namespace myComplex{
     }
 
     complex operator/(const double a, const complex& z){
-        return a/z;
+        return complex(a*z.get_real()/z.get_modulus(), -a*z.get_imaginary()/z.get_modulus());
     }
 
     complex operator+(const complex& z1, const complex& z2){

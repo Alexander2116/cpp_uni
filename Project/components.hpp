@@ -8,7 +8,7 @@ namespace myComponents{
     
     class Component{
         protected:
-            double _frequency = 0;
+            double _frequency = 1;
             complex _impedance;
         public:
             Component();

@@ -35,8 +35,8 @@ namespace myComponents{
         return "-/\\/\\/-"; // will show -/\/\/-, \ is an escape character
     }
     void Resistor::Info(){
-        // u03a9 unicode escape for OMEGA
-        std::cout << "Resistor: " << _resistivity << "Ω" << std::endl;
+        // u03a9 unicode escape for OMEGA - it doesn't work on windows correctly, but is fine in the debugger 
+        std::cout << "Resistor: " << _resistivity << " ohm" << std::endl;
     }
     std::string Resistor::CompName(){
         return "Resistor";
@@ -74,11 +74,11 @@ namespace myComponents{
 
     /* Empty */
     EmptyComp::EmptyComp(){}
-    std::string Inductor::GraphicRepresentation(){
+    std::string EmptyComp::GraphicRepresentation(){
         return "       ";
     }
-    void Inductor::Info(){}
-    std::string Inductor::CompName(){
+    void EmptyComp::Info(){}
+    std::string EmptyComp::CompName(){
         return "Empty";
     }
 }

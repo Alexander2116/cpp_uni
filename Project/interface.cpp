@@ -129,7 +129,7 @@ namespace myInterface{
             }
             std::cout << "Would like like to add another component? [y|n] " << std::endl; 
             // 'yes' return true, so if returns "false" then end the loop
-            stop = (AskToTerminate() == false);
+            stop = (TakeYNinput() == false);
             Clear();
         }
         return temp_comp_list;
@@ -165,8 +165,8 @@ namespace myInterface{
                     switch(_input){
                         // Resistor
                         case 1:
-                            // \u03a9, \u2126, unicode for OMEGA
-                            std::cout << "Enter resistance [\u2126]: ";
+                            // \u03a9, \u2126, unicode for OMEGA - doesn't work properly on Windows
+                            std::cout << "Enter resistance [Ohm]: ";
                             std::cin >> _value;
                             (_current_circuit_objects[idx_i])[idx_j] = new Resistor(_value);
                             break;
@@ -218,8 +218,8 @@ namespace myInterface{
             switch(_input){
                 // Resistor
                 case 1:
-                    // \u03a9, \u2126, unicode for OMEGA
-                    std::cout << "Enter resistance [\u2126]: ";
+                    // \u03a9, \u2126, unicode for OMEGA - doesn't work properly on Windows
+                    std::cout << "Enter resistance [Ohm]: ";
                     std::cin >> _value;
                     rlc = new Resistor(_value);
                     break;
@@ -274,7 +274,8 @@ namespace myInterface{
             std::cout << "1: Add New Circuit" << std::endl;
             std::cout << "2: Edit Circuit" << std::endl;
             std::cout << "3: Show All Circuits" << std::endl;
-            std::cout << "4: Exit Application" << std::endl;
+            std::cout << "4: Combine Circuits" << std::endl;
+            std::cout << "5: Exit Application" << std::endl;
 
             std::cin >> _input;
             try{
@@ -290,6 +291,10 @@ namespace myInterface{
                         ShowAllCircuits();
                         break;
                     case 4:
+                        // Exit
+                        CombineCircuits();
+                        break;
+                    case 5:
                         // Exit
                         _exit_request = true;
                         break;
@@ -366,11 +371,21 @@ namespace myInterface{
     }
     void Interface::CombineCircuits(){
         int c1, c2;
+        bool series;
         Clear();
         std::cout << "**** Available circuits *****" << std::endl;
         PrintCircuits();
         std::cout << "What two circuits would you like to combine? [i j]" << std::endl;
         std::cin >> c1 >> c2;
+        if(c1 < _circuits.size() && c2 < _circuits.size() && c1 >= 0 && c2 >= 0){
+            std::cout << "Do you want to connect it in series [y] or parallel [n]?: " << std::endl; 
+            series = TakeYNinput();
+            _circuits.push_back(Circuit(_circuits[c1], _circuits[c2], series));
+        }
+        else{
+            std::cout << "Given circuit doesn't exist" << std::endl;
+        }
+        PressAnyButtonToContinue();
     }
 
 
@@ -381,7 +396,7 @@ namespace myInterface{
 
         // Start Frame
         // it is *7 because a component has 7char representation
-        for(int i=0; i<x_size_window*7;i++){
+        for(int i=0; i<x_size_window*7; i++){
             std::cout << "*";
         }
         std::cout << std::endl << std::endl;
@@ -439,9 +454,9 @@ namespace myInterface{
         #endif
     }
 
-    // Ask user to provide "y" or "n" 
+    // Ask user to provide "y" or "n", Take Y/N input
     // "y" returns true, "n" returns false
-    bool AskToTerminate(){
+    bool TakeYNinput(){
         // User's input
         std::string _input;
         std::cin >> _input;

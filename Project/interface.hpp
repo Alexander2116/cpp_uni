@@ -53,7 +53,7 @@ namespace myInterface{
 
     // Clears terminal. Depending of OS different command is called
     void Clear();
-    bool AskToTerminate();
+    bool TakeYNinput();
     void PressAnyButtonToContinue();
 
 
