@@ -45,6 +45,8 @@ namespace myComplex{
 		double get_imaginary() const;
 		// return modulus of a+ib: |a+ib| = sqrt(a2+b2)
 		double get_modulus() const;
+		// return modulus squared of a+ib: |a+ib|^2 = a2+b2
+		double get_modulus2() const;
 		// return complex conjugate: change sign of imaginaty part
 		complex get_conjugate() const;
 		// return phase in radians: arctan(|im|/|re|)
