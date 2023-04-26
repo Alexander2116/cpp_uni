@@ -25,6 +25,7 @@ namespace myInterface{
         bool _go_back = false;
         _current_circuit = circuit;
         while(!_go_back){
+            _current_circuit->Info();
             std::cout << "**** Modifying currect circuit ****" << std::endl;
             std::cout << "1: Change circuit frequency connection" << std::endl;
             std::cout << "2: Add component" << std::endl;
@@ -357,7 +358,7 @@ namespace myInterface{
 
             std::cin >> _input;
             try{
-                // Safe, because characters correstponding to 1-5 are system control characters
+                // Safe, because characters corresponding to 1-5 are system control characters
                 switch(_input){
                     case 1:
                         std::cout << "Index of the circuit: ";
@@ -378,14 +379,16 @@ namespace myInterface{
                         Clear();
                 }
             }
-            catch(...){std::cout << "Incorrect input" << std::endl;}
+            catch(...){
+                Clear();
+                std::cout << "Incorrect input" << std::endl;
+            }
             std::cin.clear();
             std::cin.ignore();
 
         }
     }
     void Interface::ShowAllCircuits(){
-        char a;
         Clear();
         std::cout << "**** Available circuits *****" << std::endl;
         PrintCircuits();

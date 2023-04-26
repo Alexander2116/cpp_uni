@@ -20,8 +20,6 @@ namespace myACCircuit{
             for(auto c : b.Get_objects()){
                 circuit_objects.push_back(c);
             }
-            std::cout << 5 << std::endl;
-            // Objects
         }
         else{
             _impedance = 1/(1/a.GetImpedance() + 1/b.GetImpedance());
@@ -42,21 +40,17 @@ namespace myACCircuit{
                 }
             }
             // Create space for the added circuit (must be separated by an empty line) - y dim
-            std::cout << max_size << std::endl;
             for(auto &c: circuit_objects){
                 for(int i=0; i <= (max_size - c.size()+1); i++){
-                    std::cout << "ms - cs" << max_size - c.size()+1 << std::endl;
                     c.push_back(new EmptyComp());
                 }
             }
             // Add b circuit to the circuit_objects
-            for(int i=0; i < b.Get_objects().size();i++){
-                for(int j=0; j < b.Get_objects()[i].size();j++){
-                circuit_objects[i].push_back(b.Get_objects()[i][j]);
+            for(int i=0; i < b.Get_objects().size(); i++){
+                for(int j=0; j < b.Get_objects()[i].size(); j++){
+                    circuit_objects[i].push_back(b.Get_objects()[i][j]);
                 }
             }
-            
-            // Objects
         }
     }
 
