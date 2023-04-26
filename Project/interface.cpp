@@ -21,27 +21,44 @@ namespace myInterface{
     /* Private */
     void Interface::EditCir(Circuit* circuit){
         int _input;
+        double _freq;
         bool _go_back = false;
         _current_circuit = circuit;
         while(!_go_back){
             std::cout << "**** Modifying currect circuit ****" << std::endl;
-            std::cout << "1: Add component" << std::endl;
-            std::cout << "2: Show circuit (graphical representation)" << std::endl;
-            std::cout << "3: Show All Components (list)" << std::endl;
-            std::cout << "4: Edit components" << std::endl;
-            std::cout << "5: Go Back" << std::endl;
+            std::cout << "1: Change circuit frequency connection" << std::endl;
+            std::cout << "2: Add component" << std::endl;
+            std::cout << "3: Show circuit (graphical representation)" << std::endl;
+            std::cout << "4: Show All Components (list)" << std::endl;
+            std::cout << "5: Edit components" << std::endl;
+            std::cout << "6: Go Back" << std::endl;
             std::cin >> _input;
             //Clear();
             try{
                 // Safe, because characters correstponding to 1-5 are system control characters
                 switch(_input){
-                    // Add component
                     case 1:
+                        std::cout << "Enter the frequency supply source for the circuit: ";
+                        std::cin >> _freq;
+                        if(_freq < 0){
+                            std::cout << "Frequency cannot be negative" << std::endl;
+                            throw 0;
+                        }
+                        try{
+                            _current_circuit->Set_Frequency(_freq);
+                        }
+                        catch(...){
+                            std::cout << "Couldn't set the frequency" << std::endl;
+                        }
+                        Clear();
+                        break;
+                    // Add component
+                    case 2:
                         AddComponent();
                         Clear();
                         break;
                     // Show circuit (graphical representation)
-                    case 2:
+                    case 3:
                         Clear();
                         _current_circuit_objects = _current_circuit->Get_objects();
                         if(_current_circuit_objects.size()>0){
@@ -49,7 +66,7 @@ namespace myInterface{
                         }
                         break;
                     // Show All Components (list)
-                    case 3:
+                    case 4:
                         Clear();
                         std::cout << "List of the objects: " << std::endl;
                         try{
@@ -60,14 +77,15 @@ namespace myInterface{
                             }
                         }
                         catch(...){std::cout << "Some error occured.";}
+                        std::cout << std::endl;
                         break;
                     // Edit components
-                    case 4:
+                    case 5:
                         EditComponent();
                         Clear();
                         break;
                     // Go Back
-                    case 5:
+                    case 6:
                         _go_back = true;
                         break;
                     default:
@@ -142,8 +160,9 @@ namespace myInterface{
         for(int i=0; i<_current_circuit_objects.size();i++){
             for(int j=0; j < _current_circuit_objects[i].size();j++){
                 std::cout << i << " " << j << " :";
-                (_current_circuit_objects[i])[j]->Info();
+                _current_circuit_objects[i][j]->Info();
             }
+            std::cout << std::endl;
         }
         std::cout << "Enter [i] [j] index to select the component [i j]: ";
         try{
@@ -208,6 +227,7 @@ namespace myInterface{
         Component* rlc;
         int _input;
         double _value;
+        double _freq = _current_circuit->Get_Frequency();
         std::cout << "What component would you like to add?" << std::endl;
         std::cout << "1: Resistor" << std::endl;
         std::cout << "2: Capacitor" << std::endl;
@@ -241,6 +261,7 @@ namespace myInterface{
                     return nullptr;
 
             }
+            rlc->SetFrequency(_freq);
             return rlc;
         }
         catch(...){
@@ -262,14 +283,17 @@ namespace myInterface{
     void Interface::WelcomeMessage(){
         Clear();
         std::cout << "Hello there," << std::endl;
-        std::cout << "Hello there," << std::endl;
+        std::cout << "this program is used to simulate RCL circuits and calculate their impedances for given frequency." << std::endl <<
+        "You can create a new circuit by adding a resistor, capacitor or inductor to each block." << std::endl <<
+        "'A block' is a part of the circuit. Each block must have at least one element." << std::endl <<
+        "Each circuit can be edited. Available circuits have unique index." << std::endl << std::endl;
     }
 
     void Interface::MainMenu(){
         int _input;
 
-        WelcomeMessage();
         while(!_exit_request){
+            WelcomeMessage();
             std::cout << "**** Main Menu ****" << std::endl;
             std::cout << "1: Add New Circuit" << std::endl;
             std::cout << "2: Edit Circuit" << std::endl;

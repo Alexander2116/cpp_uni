@@ -26,12 +26,13 @@ namespace myACCircuit{
         else{
             _impedance = 1/(1/a.GetImpedance() + 1/b.GetImpedance());
             int max_size = 0;
-            for(auto c: a.Get_objects()){
+            circuit_objects = a.Get_objects();
+
+            for(auto c: circuit_objects){
                 if(c.size() > max_size){
                     max_size = c.size();
                 }
             }
-            circuit_objects = a.Get_objects();
             // Get circuits to the same x-size
             if(b.Get_objects().size() > a.Get_objects().size()){
                 for(int i=0; i < (b.Get_objects().size() - a.Get_objects().size()); i++){
@@ -40,20 +41,21 @@ namespace myACCircuit{
                     circuit_objects.push_back(a);
                 }
             }
-            // Create space for the added circuit (must be separated by an empty line)
-            for(auto c: circuit_objects){
-                for(int i=0; i < (max_size - c.size()+1); i++){
+            // Create space for the added circuit (must be separated by an empty line) - y dim
+            std::cout << max_size << std::endl;
+            for(auto &c: circuit_objects){
+                for(int i=0; i <= (max_size - c.size()+1); i++){
+                    std::cout << "ms - cs" << max_size - c.size()+1 << std::endl;
                     c.push_back(new EmptyComp());
                 }
             }
             // Add b circuit to the circuit_objects
-            for(auto c: b.Get_objects()){
-                for(int i=0; i < b.Get_objects().size();i++){
-                    for(int j=0; j < c.size();j++){
-                    circuit_objects[i].push_back(c[j]);
-                    }
+            for(int i=0; i < b.Get_objects().size();i++){
+                for(int j=0; j < b.Get_objects()[i].size();j++){
+                circuit_objects[i].push_back(b.Get_objects()[i][j]);
                 }
             }
+            
             // Objects
         }
     }
@@ -106,6 +108,9 @@ namespace myACCircuit{
     void Circuit::Set_Frequency(double freq){
         _frequency = freq;
         GetImpedance();
+    }
+    double Circuit::Get_Frequency(){
+        return _frequency;
     }
 
     void Circuit::Add_serial(Component* new_component){

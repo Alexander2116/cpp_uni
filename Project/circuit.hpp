@@ -27,6 +27,7 @@ namespace myACCircuit{
             Circuit(Circuit a, Circuit b, bool serial); // allows to create a combined circuit
             ~Circuit();
             void Set_Frequency(double freq);
+            double Get_Frequency();
             void Add_serial(Component* new_component);
             void Add_parallel(std::vector<Component*> new_components);
             vvc Get_objects();
