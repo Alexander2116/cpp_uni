@@ -26,20 +26,22 @@ namespace myInterface{
         _current_circuit = circuit;
         while(!_go_back){
             _current_circuit->Info();
-            std::cout << "**** Modifying currect circuit ****" << std::endl;
+            std::cout << std::endl << "**** Modifying currect circuit ****" << std::endl;
             std::cout << "1: Change circuit frequency connection" << std::endl;
             std::cout << "2: Add component" << std::endl;
             std::cout << "3: Show circuit (graphical representation)" << std::endl;
             std::cout << "4: Show All Components (list)" << std::endl;
             std::cout << "5: Edit components" << std::endl;
             std::cout << "6: Go Back" << std::endl;
+            std::cin.clear();
+            std::cin.ignore();
             std::cin >> _input;
             //Clear();
             try{
                 // Safe, because characters correstponding to 1-5 are system control characters
                 switch(_input){
                     case 1:
-                        std::cout << "Enter the frequency supply source for the circuit: ";
+                        std::cout << "Enter the frequency supply source for the circuit [Hz]: ";
                         std::cin >> _freq;
                         if(_freq < 0){
                             std::cout << "Frequency cannot be negative" << std::endl;
@@ -96,8 +98,6 @@ namespace myInterface{
                 //Clear();
             }
             catch(...){}
-            std::cin.clear();
-            std::cin.ignore();
         }
     }
 
@@ -149,7 +149,7 @@ namespace myInterface{
             std::cout << "Would like like to add another component? [y|n] " << std::endl; 
             // 'yes' return true, so if returns "false" then end the loop
             stop = (TakeYNinput() == false);
-            Clear();
+            //Clear();
         }
         return temp_comp_list;
     }
@@ -159,10 +159,10 @@ namespace myInterface{
         std::cout << "What component would you like to edit?" << std::endl;
         vvc obj = _current_circuit->Get_objects();
         
-        for(int i=0; i<_current_circuit_objects.size();i++){
-            for(int j=0; j < _current_circuit_objects[i].size();j++){
+        for(int i=0; i < obj.size();i++){
+            for(int j=0; j < obj[i].size();j++){
                 std::cout << i << " " << j << " :";
-                _current_circuit_objects[i][j]->Info();
+                obj[i][j]->Info();
             }
             std::cout << std::endl;
         }
@@ -289,7 +289,11 @@ namespace myInterface{
         std::cout << "this program is used to simulate RCL circuits and calculate their impedances for given frequency." << std::endl <<
         "You can create a new circuit by adding a resistor, capacitor or inductor to each block." << std::endl <<
         "'A block' is a part of the circuit. Each block must have at least one element." << std::endl <<
-        "Each circuit can be edited. Available circuits have unique index." << std::endl << std::endl;
+        "Each circuit can be edited. Available circuits have unique index." << std::endl <<
+        "Graphical elements are: " << std::endl <<
+        "-/\\/\\/-  Resistor" << std::endl <<
+        "--| |--  Capacitor" << std::endl <<
+        "--ooo--  Inductor" << std::endl << std::endl;
     }
 
     void Interface::MainMenu(){
@@ -357,7 +361,8 @@ namespace myInterface{
             std::cout << "**** Edit Circuit ****" << std::endl;
             std::cout << "1: Select circuit to edit" << std::endl;
             std::cout << "2: Exit" << std::endl;
-
+            std::cin.clear();
+            std::cin.ignore();
             std::cin >> _input;
             try{
                 // Safe, because characters corresponding to 1-5 are system control characters
@@ -371,7 +376,7 @@ namespace myInterface{
                         }
                         else{
                             Clear();
-                            std::cout << "This circuit doesn't exist" << std::endl;
+                            std::cout << "This circuit doesn't exist" << std::endl << std::endl;
                         }
                         break;
                     case 2:
@@ -385,8 +390,6 @@ namespace myInterface{
                 Clear();
                 std::cout << "Incorrect input" << std::endl;
             }
-            std::cin.clear();
-            std::cin.ignore();
 
         }
     }

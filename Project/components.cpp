@@ -51,7 +51,7 @@ namespace myComponents{
         return "--| |--";
     }
     void Capacitor::Info(){
-        std::cout << "Capacitor: " << _capacitance << "pF" << std::endl;
+        std::cout << "Capacitor: " << _capacitance << " pF" << std::endl;
     }
     std::string Capacitor::CompName(){
         return "Capacitor";
@@ -66,7 +66,7 @@ namespace myComponents{
         return "--ooo--";
     }
     void Inductor::Info(){
-        std::cout << "Inductor: " << _inductance<< "H" << std::endl;
+        std::cout << "Inductor: " << _inductance<< " H" << std::endl;
     }
     std::string Inductor::CompName(){
         return "Inductor";
