@@ -31,6 +31,7 @@ namespace myACCircuit{
             void Add_serial(Component* new_component);
             void Add_parallel(std::vector<Component*> new_components);
             vvc Get_objects();
+            void Update_objects(vvc new_objects);
             double GetEMF();
             complex GetImpedance();
             void SetImpedance(complex impedance); // Used when creating a combined circuit

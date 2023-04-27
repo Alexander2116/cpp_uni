@@ -122,6 +122,9 @@ namespace myACCircuit{
     vvc Circuit::Get_objects(){
         return circuit_objects;
     }
+    void Circuit::Update_objects(vvc new_obj){
+        circuit_objects = new_obj;
+    }
     double Circuit::GetEMF(){
         return _efm;
     }

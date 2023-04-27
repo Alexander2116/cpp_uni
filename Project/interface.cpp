@@ -157,7 +157,8 @@ namespace myInterface{
     void Interface::EditComponent(){
         int idx_i, idx_j;
         std::cout << "What component would you like to edit?" << std::endl;
-        _current_circuit_objects = _current_circuit->Get_objects();
+        vvc obj = _current_circuit->Get_objects();
+        
         for(int i=0; i<_current_circuit_objects.size();i++){
             for(int j=0; j < _current_circuit_objects[i].size();j++){
                 std::cout << i << " " << j << " :";
@@ -168,14 +169,14 @@ namespace myInterface{
         std::cout << "Enter [i] [j] index to select the component [i j]: ";
         try{
             std::cin >> idx_i >> idx_j;
-            if(idx_i < _current_circuit_objects.size()){
-                if(idx_j < _current_circuit_objects[idx_i].size()){
+            if(idx_i < obj.size()){
+                if(idx_j < obj[idx_i].size()){
                     Component* rlc;
                     int _input;
                     double _value;
 
                     std::cout << "Select what you would like to do with this component: ";
-                    _current_circuit_objects[idx_i][idx_j]->Info();
+                    obj[idx_i][idx_j]->Info();
                     std::cout << "1: Replace to new Resistor" << std::endl;
                     std::cout << "2: Replace to new Capacitor" << std::endl;
                     std::cout << "3: Replace to new Inductor" << std::endl;
@@ -188,30 +189,31 @@ namespace myInterface{
                             // \u03a9, \u2126, unicode for OMEGA - doesn't work properly on Windows
                             std::cout << "Enter resistance [Ohm]: ";
                             std::cin >> _value;
-                            (_current_circuit_objects[idx_i])[idx_j] = new Resistor(_value);
+                            _current_circuit_objects[idx_i][idx_j] = new Resistor(_value);
                             break;
                         // Capacitor
                         case 2:
                             std::cout << "Enter capacitance [pF]: ";
                             std::cin >> _value;
-                            (_current_circuit_objects[idx_i])[idx_j] = new Capacitor(_value);
+                            obj[idx_i][idx_j] = new Capacitor(_value);
                             break;
                         // Inductor
                         case 3:
                             std::cout << "Enter inductance [H]: ";
                             std::cin >> _value;
-                            (_current_circuit_objects[idx_i])[idx_j] = new Inductor(_value);
+                            obj[idx_i][idx_j] = new Inductor(_value);
                             break;
                         // Remove
                         case 4: 
                             // Check if works
-                            _current_circuit_objects[idx_i].erase(_current_circuit_objects[idx_i].begin() + idx_j);
+                            obj[idx_i].erase(obj[idx_i].begin() + idx_j);
                             break;
                         // Exit
                         case 5: 
                             std::cout << "Going back" << std::endl;
                             break;
                     } // switch end
+                    _current_circuit->Update_objects(obj);
 
                 } // inner if
             } // outer if
