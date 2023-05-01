@@ -9,7 +9,7 @@ namespace myInterface{
 
     Interface::Interface(){
         Clear();
-        MainMenu();
+        //MainMenu();
     }
     Interface::~Interface(){
         _current_circuit = nullptr;
@@ -45,13 +45,14 @@ namespace myInterface{
                         std::cin >> _freq;
                         if(_freq < 0){
                             std::cout << "Frequency cannot be negative" << std::endl;
-                            throw 0;
+                            throw -1; // Negative frequency
                         }
                         try{
                             _current_circuit->Set_Frequency(_freq);
                         }
-                        catch(...){
+                        catch(char const* error_message){
                             std::cout << "Couldn't set the frequency" << std::endl;
+                            std::cout << "Error: " << error_message << std::endl;
                         }
                         Clear();
                         break;
@@ -97,7 +98,9 @@ namespace myInterface{
                 }
                 //Clear();
             }
-            catch(...){}
+            catch(char const* error_message){
+                std::cout << "Error: " << error_message << std::endl;
+            }
         }
     }
 
@@ -129,6 +132,8 @@ namespace myInterface{
             // Exit
             case 3:
                 break;
+            default:
+                std::cout << "Non-existing option. Go back." << std::endl;
         }
 
     }
@@ -218,7 +223,9 @@ namespace myInterface{
                 } // inner if
             } // outer if
         } //try
-        catch(...){}
+        catch(char const* error_message){
+                std::cout << "Error: " << error_message << std::endl;
+        }
 
     }
 
@@ -267,10 +274,11 @@ namespace myInterface{
             rlc->SetFrequency(_freq);
             return rlc;
         }
-        catch(...){
+        catch(char const* error_message){
             std::cout << "Incorrect item" << std::endl;
+            std::cout << "Error: " << error_message << std::endl;
             return nullptr;
-        }
+        }       
     }
     
     void Interface::PrintCircuits(){
@@ -332,8 +340,9 @@ namespace myInterface{
                 }
                 Clear();
             }
-            catch(...){
+            catch(char const* error_message){
                 std::cout << "Incorrect input" << std::endl;
+                std::cout << "Error: " << error_message << std::endl;
             }
             std::cin.clear();
             std::cin.ignore();
@@ -386,9 +395,10 @@ namespace myInterface{
                         Clear();
                 }
             }
-            catch(...){
+            catch(char const* error_message){
                 Clear();
                 std::cout << "Incorrect input" << std::endl;
+                std::cout << "Error: " << error_message << std::endl;
             }
 
         }

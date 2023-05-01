@@ -1,3 +1,20 @@
+/*============================================================
+** UTF-8, Win32
+**
+** Name:  Aleksander Kedziora
+** Student ID:  10458000
+**
+**
+** Purpose: 
+**
+** Classes: Component(), Resistor(double), Capacitor(double), Inductor(double), EmptyCom()
+**
+** Comments: 
+**
+** Date:  15 April 2023
+**
+===========================================================*/
+
 #ifndef COMPONENTS_H // include guard
 #define COMPONENTS_H
 
@@ -26,30 +43,39 @@ namespace myComponents{
     class Resistor: public Component{
         private:
             double _resistivity;
+            static int _obj_count;
         public:
             Resistor(double resistivity);
+            ~Resistor();
             std::string GraphicRepresentation();
             void Info();
+            int GetCount(); // Return the number of created objects of this type
             std::string CompName();
     };
 
     class Capacitor: public Component{
         private:
             double _capacitance;
+            static int _obj_count;
         public:
             Capacitor(double capacitance);
+            ~Capacitor();
             std::string GraphicRepresentation();
             void Info();
+            int GetCount();
             std::string CompName();
     };
 
     class Inductor: public Component{
         private:
             double _inductance;
+            static int _obj_count;
         public:
             Inductor(double inductance);
+            ~Inductor();
             std::string GraphicRepresentation();
             void Info();
+            int GetCount();
             std::string CompName();
     };
 
@@ -61,25 +87,6 @@ namespace myComponents{
             std::string CompName();
     };
 
-    class AC_Source: public Component{
-        private:
-            double _frequency;
-            double _voltage;
-            double _current;
-        public:
-            AC_Source(double vol, double freq, double cur);
-            std::string GraphicRepresentation();
-            void Info();
-    };
-    // alternative
-    /*
-    struct AC_Source : public Component
-    {
-            double _frequency;
-            double _voltage;
-            double _current;
-            AC_Source(double v, double i, double f);
-    };*/
     
 }
 

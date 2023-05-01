@@ -1,3 +1,20 @@
+/*============================================================
+** UTF-8, Win32
+**
+** Name:  Aleksander Kedziora
+** Student ID:  10458000
+**
+**
+** Purpose: 
+**
+** Classes: Circuit: Circuit(), Circuit(Circuit, Circuit, bool)
+**
+** Comments: 
+**
+** Date:  15 April 2023
+**
+===========================================================*/
+
 #ifndef CIRCUIT_H // include guard
 #define CIRCUIT_H
 

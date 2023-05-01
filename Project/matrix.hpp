@@ -1,3 +1,20 @@
+/*============================================================
+** UTF-8, Win32
+**
+** Name:  Aleksander Kedziora
+** Student ID:  10458000
+**
+**
+** Purpose: Storing strings in a matrix form. Usefull for graphical components storage
+**
+** Classes: StringMatrix(int, int)
+**
+** Comments : Modified code of assignment-5
+**
+** Date:  22 March 2023
+**
+===========================================================*/
+
 #ifndef MATRIX_H // include guard
 #define MATRIX_H
 
@@ -15,7 +32,7 @@ namespace myMatrix{
         friend std::istream& operator>>(std::istream &is, StringMatrix &m);
     private:
         uint32_t _rows{0}, _columns{0};
-        std::string *_matrix_data{nullptr}; // it will be double[] 1D array/list
+        std::string *_matrix_data{nullptr}; // it will be string[] 1D array/list
     public:
         // Default constructor
         StringMatrix()= default;

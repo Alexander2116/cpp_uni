@@ -1,3 +1,21 @@
+/*============================================================
+** UTF-8, Win32
+**
+** Name:  Aleksander Kedziora
+** Student ID:  10458000
+**
+**
+** Purpose: An iterface for user.
+**        : Easy navigation, creation and modification of stored circuits
+**
+** Classes: Interface()
+**
+** Comments: 
+**
+** Date:  15 April 2023
+**
+===========================================================*/
+
 #ifndef INTERFACE_H // include guard
 #define INTERFACE_H
 
@@ -36,7 +54,6 @@ namespace myInterface{
         protected:
             // Interface related functions
             void WelcomeMessage();
-            void MainMenu(); // Main interface - starting
             void AddCircuit(); // Option in the main interface
             void EditCircuit(); // Option in the main interface
             void ShowAllCircuits(); // Option in the main interface
@@ -48,6 +65,7 @@ namespace myInterface{
             void UpdateObjects(vvc add_circuit_objects);
         public:
             Interface();
+            void MainMenu(); // Main interface - starting
             ~Interface();
     };
 
