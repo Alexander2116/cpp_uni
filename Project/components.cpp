@@ -10,12 +10,6 @@ namespace myComponents{
     }
     Component::~Component(){
     }
-    void Component::SetFrequency(double frequency){
-        _frequency = frequency;
-    }
-    double Component::GetFrequency(){
-        return _frequency;
-    }
     complex Component::GetImpedance(){
         return _impedance;
     }
@@ -25,12 +19,21 @@ namespace myComponents{
     double Component::GetImpedanceMagnitude(){
         return _impedance.get_modulus();
     }
+    void Component::SetFrequency(double frequency){
+        _frequency = frequency;
+    }
+    double Component::GetFrequency(){
+        return _frequency;
+    }
 
     /* Resistor */
     Resistor::Resistor(double res): Component(){
         ++_obj_count;
         _resistivity = res;
         _impedance = complex(_resistivity,0);
+    }
+    Resistor::~Resistor(){
+        --_obj_count;
     }
     std::string Resistor::GraphicRepresentation(){
         return "-/\\/\\/-"; // will show -/\/\/-, \ is an escape character
@@ -45,9 +48,7 @@ namespace myComponents{
     std::string Resistor::CompName(){
         return "Resistor";
     }
-    Resistor::~Resistor(){
-        --_obj_count;
-    }
+
     int Resistor::_obj_count{0};
 
     /* Capacitor*/
@@ -55,6 +56,9 @@ namespace myComponents{
         ++_obj_count;
         _capacitance = cap;
         _impedance = complex(0,-1/(_capacitance*_frequency*2*M_PI));
+    }
+    Capacitor::~Capacitor(){
+        --_obj_count;
     }
     std::string Capacitor::GraphicRepresentation(){
         return "--| |--";
@@ -68,9 +72,7 @@ namespace myComponents{
     std::string Capacitor::CompName(){
         return "Capacitor";
     }
-    Capacitor::~Capacitor(){
-        --_obj_count;
-    }
+
     int Capacitor::_obj_count{0};
 
     /* Inductor */
@@ -79,11 +81,14 @@ namespace myComponents{
         _inductance = ind;
         _impedance = complex(0,_inductance*_frequency*2*M_PI);
     }
+    Inductor::~Inductor(){
+        --_obj_count;
+    }
     std::string Inductor::GraphicRepresentation(){
         return "--ooo--";
     }
     void Inductor::Info(){
-        std::cout << "Inductor: " << _inductance<< " H" << std::endl;
+        std::cout << "Inductor: " << _inductance << " H" << std::endl;
     }
     int Inductor::GetCount(){
         return _obj_count;
@@ -91,13 +96,11 @@ namespace myComponents{
     std::string Inductor::CompName(){
         return "Inductor";
     }
-    Inductor::~Inductor(){
-        --_obj_count;
-    }
+
     int Inductor::_obj_count{0};
 
     /* Empty */
-    EmptyComp::EmptyComp(){}
+    EmptyComp::EmptyComp(){} // There is no need to fill the constuctor
     std::string EmptyComp::GraphicRepresentation(){
         return "       "; // 7 spaces
     }

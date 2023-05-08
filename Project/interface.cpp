@@ -7,6 +7,7 @@ namespace myInterface{
     using namespace myACCircuit;
     using namespace myComplex;
 
+    /* Constructor & deconstructor*/
     Interface::Interface(){
         Clear();
         //MainMenu();
@@ -14,7 +15,7 @@ namespace myInterface{
     Interface::~Interface(){
         _current_circuit = nullptr;
         _current_circuit_objects.clear(); 
-        display_data.~StringMatrix(); 
+        _display_data.~StringMatrix(); 
         _circuits.clear();
     }
 
@@ -48,7 +49,7 @@ namespace myInterface{
                             throw -1; // Negative frequency
                         }
                         try{
-                            _current_circuit->Set_Frequency(_freq);
+                            _current_circuit->SetFrequency(_freq);
                         }
                         catch(char const* error_message){
                             std::cout << "Couldn't set the frequency" << std::endl;
@@ -64,7 +65,7 @@ namespace myInterface{
                     // Show circuit (graphical representation)
                     case 3:
                         Clear();
-                        _current_circuit_objects = _current_circuit->Get_objects();
+                        _current_circuit_objects = _current_circuit->GetObjects();
                         if(_current_circuit_objects.size()>0){
                             Display();
                         }
@@ -74,13 +75,15 @@ namespace myInterface{
                         Clear();
                         std::cout << "List of the objects: " << std::endl;
                         try{
-                            for(auto c1: _current_circuit->Get_objects()){
+                            for(auto c1: _current_circuit->GetObjects()){
                                 for(auto c2: c1){
                                     c2->Info();
                                 }
                             }
                         }
-                        catch(...){std::cout << "Some error occured.";}
+                        catch(char const* error_message){
+                            std::cout << "Error: " << error_message << std::endl;
+                        }
                         std::cout << std::endl;
                         break;
                     // Edit components
@@ -112,13 +115,15 @@ namespace myInterface{
         std::cout << "1: Add serial component to the next block (add one component)" << std::endl;
         std::cout << "2: Add parallel components to the next block (add many components)" << std::endl;
         std::cout << "3: Go Back" << std::endl;
+        std::cin.clear();
+        std::cin.ignore();
         std::cin >> _input;
         switch(_input){
             // Serial
             case 1:
                 rlc = CreateComponent(); 
                 if(rlc != nullptr){
-                    _current_circuit->Add_serial(rlc);
+                    _current_circuit->AddSerial(rlc);
                 }
                 else{
                     std::cout << "Component couldn't be added" << std::endl;
@@ -127,13 +132,14 @@ namespace myInterface{
             // Parallel
             case 2:
                 rlcs = AddSerialComponents();
-                _current_circuit->Add_parallel(rlcs);
+                _current_circuit->AddParallel(rlcs);
                 break;
             // Exit
             case 3:
                 break;
             default:
                 std::cout << "Non-existing option. Go back." << std::endl;
+                break;
         }
 
     }
@@ -142,7 +148,7 @@ namespace myInterface{
         bool stop = false;
         std::vector<Component*> temp_comp_list;
         Component* temp_comp;
-        std::cout << "" << std::endl;
+        std::cout << std::endl;
         while(!stop){
             temp_comp = CreateComponent();
             if(temp_comp != NULL){
@@ -153,6 +159,8 @@ namespace myInterface{
             }
             std::cout << "Would like like to add another component? [y|n] " << std::endl; 
             // 'yes' return true, so if returns "false" then end the loop
+            std::cin.clear();
+            std::cin.ignore();
             stop = (TakeYNinput() == false);
             //Clear();
         }
@@ -162,7 +170,7 @@ namespace myInterface{
     void Interface::EditComponent(){
         int idx_i, idx_j;
         std::cout << "What component would you like to edit?" << std::endl;
-        vvc obj = _current_circuit->Get_objects();
+        vvc obj = _current_circuit->GetObjects();
         
         for(int i=0; i < obj.size();i++){
             for(int j=0; j < obj[i].size();j++){
@@ -218,7 +226,7 @@ namespace myInterface{
                             std::cout << "Going back" << std::endl;
                             break;
                     } // switch end
-                    _current_circuit->Update_objects(obj);
+                    _current_circuit->UpdateObjects(obj);
 
                 } // inner if
             } // outer if
@@ -237,7 +245,7 @@ namespace myInterface{
         Component* rlc;
         int _input;
         double _value;
-        double _freq = _current_circuit->Get_Frequency();
+        double _freq = _current_circuit->GetFrequency();
         std::cout << "What component would you like to add?" << std::endl;
         std::cout << "1: Resistor" << std::endl;
         std::cout << "2: Capacitor" << std::endl;
@@ -268,6 +276,9 @@ namespace myInterface{
                 // Exit
                 case 4: 
                     std::cout << "Going back" << std::endl;
+                    return nullptr;
+                default:
+                    std::cout << "Non-existing option. Go back" << std::endl;
                     return nullptr;
 
             }
@@ -354,7 +365,7 @@ namespace myInterface{
         Circuit new_cir;
         
         EditCir(&new_cir);
-        if(new_cir.Get_objects().size()>0){
+        if(new_cir.GetObjects().size()>0){
             _circuits.push_back(new_cir);
         }
     }
@@ -438,22 +449,22 @@ namespace myInterface{
 
         // Start Frame
         // it is *7 because a component has 7char representation
-        for(int i=0; i<x_size_window*7; i++){
+        for(int i=0; i<_x_size_window*7; i++){
             std::cout << "*";
         }
         std::cout << std::endl << std::endl;
 
         // Fill Frame
-        for(int i=1; i <= y_size_window; i++){
-            for(int j=1; j <= x_size_window; j++){
-                std::cout << display_data(i,j);
+        for(int i=1; i <= _y_size_window; i++){
+            for(int j=1; j <= _x_size_window; j++){
+                std::cout << _display_data(i,j);
             }
             std::cout << std::endl;
         }
         
         // End Frame
         std::cout << std::endl;
-        for(int i=0; i<x_size_window*7; i++){
+        for(int i=0; i<_x_size_window*7; i++){
             std::cout << "*";
         }
         std::cout << std::endl;
@@ -461,20 +472,20 @@ namespace myInterface{
 
     // Updates the display matrix
     void Interface::UpdateGraphic(){
-        x_size_window = _current_circuit_objects.size();
+        _x_size_window = _current_circuit_objects.size();
 
         for(auto obj : _current_circuit_objects){
-            if(obj.size() > y_size_window){
-                y_size_window = obj.size();
+            if(obj.size() > _y_size_window){
+                _y_size_window = obj.size();
             }
         }
 
-        display_data = StringMatrix(y_size_window,x_size_window); // y rows and x columns
+        _display_data = StringMatrix(_y_size_window,_x_size_window); // y rows and x columns
         // Vector object (circuit_object) index starts with 0
         // Matrix index starts with 1
         for(int i=1; i <= _current_circuit_objects.size(); i++){
             for(int j=1; j <= _current_circuit_objects[i-1].size(); j++){
-                display_data(j,i) = _current_circuit_objects[i-1][j-1]->GraphicRepresentation();
+                _display_data(j,i) = _current_circuit_objects[i-1][j-1]->GraphicRepresentation();
             }
         }
 

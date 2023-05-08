@@ -38,12 +38,12 @@ namespace myInterface{
             Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
             // vvc - "vector vector component" - defined in circuit.hpp
             vvc _current_circuit_objects; // temporary, vvc for selected circuit (currently used)
-            StringMatrix display_data; // Matrix for graphics
+            StringMatrix _display_data; // Matrix for graphics
             std::vector<Circuit> _circuits; // List of all stored circuits
-            int x_size_window{1}; // x size of the display
-            int y_size_window{1}; // y size of the display
+            int _x_size_window{1}; // x size of the display
+            int _y_size_window{1}; // y size of the display
             bool _exit_request{false}; // fully exit the program if true
-            // fun
+            // functions
             void EditCir(Circuit* circuit); // Edits given circuit (has interface)
             void AddComponent(); // Inside Circuit related - interface to add a component
             void EditComponent(); // Inside Circuit related - interface to edit a component

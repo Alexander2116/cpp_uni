@@ -5,50 +5,56 @@
 namespace myACCircuit{
     using namespace myComponents;
 
+    // *** Constructors and deconstructor ***
     Circuit::Circuit(){
         _is_combined = false;
         _impedance = complex(0,0);
+        _id += 1;
     }
 
     Circuit::Circuit(Circuit a, Circuit b, bool serial){
         _is_combined = true;
+        // New circuit inherits first's circuit frequency
         _frequency = a._frequency;
         b._frequency = _frequency;
+
+        // Connect circuits in serial
         if(serial == true){
             _impedance = a.GetImpedance() + b.GetImpedance();
-            circuit_objects = a.Get_objects();
-            for(auto c : b.Get_objects()){
-                circuit_objects.push_back(c);
+            _circuit_objects = a.GetObjects();
+            for(auto c : b.GetObjects()){
+                _circuit_objects.push_back(c);
             }
         }
+        // Connect circuits in parallel
         else{
             _impedance = 1/(1/a.GetImpedance() + 1/b.GetImpedance());
             int max_size = 0;
-            circuit_objects = a.Get_objects();
+            _circuit_objects = a.GetObjects();
 
-            for(auto c: circuit_objects){
+            for(auto c: _circuit_objects){
                 if(c.size() > max_size){
                     max_size = c.size();
                 }
             }
             // Get circuits to the same x-size
-            if(b.Get_objects().size() > a.Get_objects().size()){
-                for(int i=0; i < (b.Get_objects().size() - a.Get_objects().size()); i++){
+            if(b.GetObjects().size() > a.GetObjects().size()){
+                for(int i=0; i < (b.GetObjects().size() - a.GetObjects().size()); i++){
                     std::vector<Component*> a;
                     a.push_back(new EmptyComp());
-                    circuit_objects.push_back(a);
+                    _circuit_objects.push_back(a);
                 }
             }
             // Create space for the added circuit (must be separated by an empty line) - y dim
-            for(auto &c: circuit_objects){
+            for(auto &c: _circuit_objects){
                 for(int i=0; i <= (max_size - c.size()+1); i++){
                     c.push_back(new EmptyComp());
                 }
             }
             // Add b circuit to the circuit_objects
-            for(int i=0; i < b.Get_objects().size(); i++){
-                for(int j=0; j < b.Get_objects()[i].size(); j++){
-                    circuit_objects[i].push_back(b.Get_objects()[i][j]);
+            for(int i=0; i < b.GetObjects().size(); i++){
+                for(int j=0; j < b.GetObjects()[i].size(); j++){
+                    _circuit_objects[i].push_back(b.GetObjects()[i][j]);
                 }
             }
         }
@@ -56,7 +62,8 @@ namespace myACCircuit{
 
     Circuit::~Circuit(){
         _impedance = complex(0,0);
-        circuit_objects.clear();
+        _circuit_objects.clear();
+        _id -= 1;
     }
 
     int Circuit::_id{0};
@@ -98,42 +105,51 @@ namespace myACCircuit{
             }
             return temp;
     } // gives impedance for serial components
-    // *****************************************
-    void Circuit::Set_Frequency(double freq){
+
+    // **********  PUBLIC FUNCTIONS *************
+    void Circuit::SetFrequency(double freq){
         _frequency = freq;
+        // Need to update impadance of the circuit upon changing frequency
         GetImpedance();
     }
-    double Circuit::Get_Frequency(){
+
+    double Circuit::GetFrequency(){
         return _frequency;
     }
 
-    void Circuit::Add_serial(Component* new_component){
+    void Circuit::AddSerial(Component* new_component){
         std::vector<Component*> temp;
         new_component->SetFrequency(_frequency);
         temp.push_back(new_component);
-        circuit_objects.push_back(temp);
+        _circuit_objects.push_back(temp);
     }
-    void Circuit::Add_parallel(std::vector<Component*> new_components){
+
+    void Circuit::AddParallel(std::vector<Component*> new_components){
         for(auto& comp : new_components){
             comp->SetFrequency(_frequency);
         }
-        circuit_objects.push_back(new_components);
+        _circuit_objects.push_back(new_components);
     }
-    vvc Circuit::Get_objects(){
-        return circuit_objects;
+
+    vvc Circuit::GetObjects(){
+        return _circuit_objects;
     }
-    void Circuit::Update_objects(vvc new_obj){
-        circuit_objects = new_obj;
+
+    void Circuit::UpdateObjects(vvc new_obj){
+        _circuit_objects = new_obj;
     }
+
     double Circuit::GetEMF(){
         return _efm;
     }
+
     complex Circuit::GetImpedance(){
         // Just in case if circuit_objects is empty. complex(0,0) should be returned anyway looking at calc_serial() structure
         // Alternatively I could use if(obj != null)
+        // if not combined then calculate impedance normally
         if(!_is_combined){
             try{
-                _impedance = calc_serial(calc_parallel(circuit_objects));
+                _impedance = calc_serial(calc_parallel(_circuit_objects));
             }
             catch(...){
                 std::cout << "Impedance couldn't be calculated. Perhaps list of objects is empty" << std::endl;
@@ -141,9 +157,14 @@ namespace myACCircuit{
             }
             return _impedance;
         }
+        // If combined then impedance is given at the creation. (special case for parallel adding)
         else{
             return _impedance;
         }
+    }
+
+    void Circuit::SetImpedance(complex impedance){
+        _impedance = impedance;
     }
 
     double Circuit::GetPhaseDifference(){
@@ -152,7 +173,7 @@ namespace myACCircuit{
 
     void Circuit::Info(){
         int count=0;
-        for(auto a: circuit_objects){
+        for(auto a: _circuit_objects){
             for(auto b: a){
                 // Empty component is not an actual component
                 if(b->CompName() != "Empty"){

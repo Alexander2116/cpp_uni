@@ -25,19 +25,19 @@ namespace myComponents{
     
     class Component{
         protected:
-            double _frequency = 1;
-            complex _impedance;
+            double _frequency = 1; // Frequency, can be changed anytime
+            complex _impedance; // current component's impedance
         public:
             Component();
             ~Component();
-            virtual complex GetImpedance();
-            virtual double GetPhaseDifference();
-            virtual double GetImpedanceMagnitude();
-            virtual std::string GraphicRepresentation()=0; // Must be specific for each derived component
-            virtual void SetFrequency(double frequency);
-            virtual double GetFrequency();
-            virtual void Info()=0;
-            virtual std::string CompName()=0;
+            virtual complex GetImpedance(); // Return current impedance
+            virtual double GetPhaseDifference(); // Return phase difference - impedance's argument
+            virtual double GetImpedanceMagnitude(); // Return impedance magnitude - impedance's modulus
+            virtual std::string GraphicRepresentation()=0; // Graphics must be specific for each derived component
+            virtual void SetFrequency(double frequency); // Sets component's frequency
+            virtual double GetFrequency(); // General function to return component's frequency
+            virtual void Info()=0; // Provides printed info for each component
+            virtual std::string CompName()=0; // Specifies component name
     };
 
     class Resistor: public Component{
@@ -84,6 +84,7 @@ namespace myComponents{
             EmptyComp();
             std::string GraphicRepresentation();
             void Info();
+            // Doesn't require GetCount() - why would somebody want to know how many blank spaces there are?
             std::string CompName();
     };
 
