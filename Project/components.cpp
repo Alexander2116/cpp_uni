@@ -38,6 +38,10 @@ namespace myComponents{
     std::string Resistor::GraphicRepresentation(){
         return "-/\\/\\/-"; // will show -/\/\/-, \ is an escape character
     }
+    void Resistor::SetFrequency(double frequency){
+        _frequency = frequency;
+        // No need to update impedance 
+    }
     void Resistor::Info(){
         // u03a9 unicode escape for OMEGA - it doesn't work on windows correctly, but is fine in the debugger 
         std::cout << "Resistor: " << _resistivity << " ohm" << std::endl;
@@ -63,6 +67,10 @@ namespace myComponents{
     std::string Capacitor::GraphicRepresentation(){
         return "--| |--";
     }
+    void Capacitor::SetFrequency(double frequency){
+        _frequency = frequency;
+        _impedance = complex(0,-1/(_capacitance*_frequency*2*M_PI));
+    }
     void Capacitor::Info(){
         std::cout << "Capacitor: " << _capacitance << " pF" << std::endl;
     }
@@ -87,6 +95,10 @@ namespace myComponents{
     std::string Inductor::GraphicRepresentation(){
         return "--ooo--";
     }
+    void Inductor::SetFrequency(double frequency){
+        _frequency = frequency;
+        _impedance = complex(0,_inductance*_frequency*2*M_PI);
+    }
     void Inductor::Info(){
         std::cout << "Inductor: " << _inductance << " H" << std::endl;
     }
@@ -104,6 +116,7 @@ namespace myComponents{
     std::string EmptyComp::GraphicRepresentation(){
         return "       "; // 7 spaces
     }
+    void EmptyComp::SetFrequency(double frequency){}
     void EmptyComp::Info(){}
     std::string EmptyComp::CompName(){
         return "Empty";

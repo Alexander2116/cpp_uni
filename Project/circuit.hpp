@@ -39,7 +39,6 @@ namespace myACCircuit{
             std::vector<complex> calc_parallel(vvc circuit_objects_list); // gives impedance for parallel components
             complex calc_serial(std::vector<complex> impedancies); // gives impedance for serial components
         
-
         public:
             Circuit(); // not combined in default
             Circuit(Circuit a, Circuit b, bool serial); // allows to create a combined circuit

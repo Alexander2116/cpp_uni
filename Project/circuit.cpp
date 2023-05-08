@@ -83,7 +83,6 @@ namespace myACCircuit{
             if(list_of_components.size()>1){
                 for(Component* component : list_of_components){
                     component->SetFrequency(_frequency);
-                    // Issue here
                     complex a = component->GetImpedance();
                     temp = temp + a.get_conjugate()*(1/(a.get_modulus2())); // t = 1/z1 + 1/z2 +...
                 }
@@ -147,12 +146,13 @@ namespace myACCircuit{
         // Just in case if circuit_objects is empty. complex(0,0) should be returned anyway looking at calc_serial() structure
         // Alternatively I could use if(obj != null)
         // if not combined then calculate impedance normally
-        if(!_is_combined){
+        if(_is_combined == false){
             try{
                 _impedance = calc_serial(calc_parallel(_circuit_objects));
             }
-            catch(...){
+            catch(char const* error_message){
                 std::cout << "Impedance couldn't be calculated. Perhaps list of objects is empty" << std::endl;
+                std::cout << "Error: " << error_message << std::endl;
                 _impedance = complex(0,0);
             }
             return _impedance;
@@ -181,7 +181,7 @@ namespace myACCircuit{
                 }
             }
         }
-        GetImpedance();
+        _impedance = GetImpedance();
         std::cout << "This circuit has " << count << " components with " << _impedance << " impedance and is supplied with " << _frequency << " Hz";
     }
 }

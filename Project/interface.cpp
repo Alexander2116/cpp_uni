@@ -27,6 +27,7 @@ namespace myInterface{
         _current_circuit = circuit;
         while(!_go_back){
             _current_circuit->Info();
+            std::cout << std::endl;
             std::cout << std::endl << "**** Modifying currect circuit ****" << std::endl;
             std::cout << "1: Change circuit frequency connection" << std::endl;
             std::cout << "2: Add component" << std::endl;
@@ -44,18 +45,21 @@ namespace myInterface{
                     case 1:
                         std::cout << "Enter the frequency supply source for the circuit [Hz]: ";
                         std::cin >> _freq;
-                        if(_freq < 0){
-                            std::cout << "Frequency cannot be negative" << std::endl;
-                            throw -1; // Negative frequency
-                        }
                         try{
-                            _current_circuit->SetFrequency(_freq);
+                            if(_freq <= 0){
+                                std::cout << "Frequency cannot be negative nor 0" << std::endl;
+                            }
+                            else{
+                                // Updates impedance automatically
+                                _current_circuit->SetFrequency(_freq);
+                                Clear();
+                            }
                         }
                         catch(char const* error_message){
+                            Clear();
                             std::cout << "Couldn't set the frequency" << std::endl;
                             std::cout << "Error: " << error_message << std::endl;
                         }
-                        Clear();
                         break;
                     // Add component
                     case 2:
@@ -452,7 +456,7 @@ namespace myInterface{
 
     }
 
-    void Interface::UpdateObjects(vvc add_current_circuit_objects){
+    void Interface::SetObjects(vvc add_current_circuit_objects){
         _current_circuit_objects = add_current_circuit_objects;
     }
 

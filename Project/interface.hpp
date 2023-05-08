@@ -63,7 +63,7 @@ namespace myInterface{
             // Graphics related functions
             void Display();
             void UpdateGraphic();
-            void UpdateObjects(vvc add_circuit_objects);
+            void SetObjects(vvc add_circuit_objects);
         public:
             Interface();
             ~Interface();
