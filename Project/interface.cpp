@@ -7,7 +7,7 @@ namespace myInterface{
     using namespace myACCircuit;
     using namespace myComplex;
 
-    /* Constructor & deconstructor*/
+    /**** Constructor & deconstructor ****/
     Interface::Interface(){
         Clear();
         //MainMenu();
@@ -19,7 +19,7 @@ namespace myInterface{
         _circuits.clear();
     }
 
-    /* Private */
+    /**** Private ****/
     void Interface::EditCir(Circuit* circuit){
         int _input;
         double _freq;
@@ -143,29 +143,6 @@ namespace myInterface{
         }
 
     }
-    // 
-    std::vector<Component*> Interface::AddSerialComponents(){
-        bool stop = false;
-        std::vector<Component*> temp_comp_list;
-        Component* temp_comp;
-        std::cout << std::endl;
-        while(!stop){
-            temp_comp = CreateComponent();
-            if(temp_comp != NULL){
-                temp_comp_list.push_back(temp_comp);
-            }
-            else{
-                std::cout << "Adding the component was unsuccessful" << std::endl;
-            }
-            std::cout << "Would like like to add another component? [y|n] " << std::endl; 
-            // 'yes' return true, so if returns "false" then end the loop
-            std::cin.clear();
-            std::cin.ignore();
-            stop = (TakeYNinput() == false);
-            //Clear();
-        }
-        return temp_comp_list;
-    }
 
     void Interface::EditComponent(){
         int idx_i, idx_j;
@@ -237,6 +214,31 @@ namespace myInterface{
 
     }
 
+    // Interface to create a block of components to add them in series
+    // Returns the created block of components 
+    std::vector<Component*> Interface::AddSerialComponents(){
+        bool stop = false;
+        std::vector<Component*> temp_comp_list;
+        Component* temp_comp;
+        std::cout << std::endl;
+        while(!stop){
+            temp_comp = CreateComponent();
+            if(temp_comp != NULL){
+                temp_comp_list.push_back(temp_comp);
+            }
+            else{
+                std::cout << "Adding the component was unsuccessful" << std::endl;
+            }
+            std::cout << "Would like like to add another component? [y|n] " << std::endl; 
+            // 'yes' return true, so if returns "false" then end the loop
+            std::cin.clear();
+            std::cin.ignore();
+            stop = (TakeYNinput() == false);
+            //Clear();
+        }
+        return temp_comp_list;
+    }
+
     // Allows to create a component,
     // I could think about better implementation - without returning resistor(0)
     // To work correctly check if not==null
@@ -300,7 +302,7 @@ namespace myInterface{
         }
     }
     
-    /* Public */
+    /**** Protected ****/
     /*  Interface related functions  */
     void Interface::WelcomeMessage(){
         Clear();
@@ -315,50 +317,6 @@ namespace myInterface{
         "--ooo--  Inductor" << std::endl << std::endl;
     }
 
-    void Interface::MainMenu(){
-        int _input;
-
-        while(!_exit_request){
-            WelcomeMessage();
-            std::cout << "**** Main Menu ****" << std::endl;
-            std::cout << "1: Add New Circuit" << std::endl;
-            std::cout << "2: Edit Circuit" << std::endl;
-            std::cout << "3: Show All Circuits" << std::endl;
-            std::cout << "4: Combine Circuits" << std::endl;
-            std::cout << "5: Exit Application" << std::endl;
-
-            std::cin >> _input;
-            try{
-                // Safe, because characters correstponding to 1-5 are system control characters
-                switch(_input){
-                    case 1:
-                        AddCircuit();
-                        break;
-                    case 2:
-                        EditCircuit();
-                        break;
-                    case 3:
-                        ShowAllCircuits();
-                        break;
-                    case 4:
-                        // Exit
-                        CombineCircuits();
-                        break;
-                    case 5:
-                        // Exit
-                        _exit_request = true;
-                        break;
-                }
-                Clear();
-            }
-            catch(char const* error_message){
-                std::cout << "Incorrect input" << std::endl;
-                std::cout << "Error: " << error_message << std::endl;
-            }
-            std::cin.clear();
-            std::cin.ignore();
-        }
-    }
     void Interface::AddCircuit(){
         Clear();
         std::cout << "**** Add new circuit ****"<< std::endl;
@@ -369,6 +327,7 @@ namespace myInterface{
             _circuits.push_back(new_cir);
         }
     }
+
     void Interface::EditCircuit(){
         int _input;
         int _idx;
@@ -414,6 +373,7 @@ namespace myInterface{
 
         }
     }
+
     void Interface::ShowAllCircuits(){
         Clear();
         std::cout << "**** Available circuits *****" << std::endl;
@@ -422,6 +382,7 @@ namespace myInterface{
         //std::cout << "Press any button to go back "; // Function below provides the message 
         PressAnyButtonToContinue();
     }
+
     void Interface::CombineCircuits(){
         int c1, c2;
         bool series;
@@ -495,7 +456,54 @@ namespace myInterface{
         _current_circuit_objects = add_current_circuit_objects;
     }
 
-    /*  Outside-Class functions*/
+    /**** Public ****/
+    void Interface::MainMenu(){
+        int _input;
+
+        while(!_exit_request){
+            WelcomeMessage();
+            std::cout << "**** Main Menu ****" << std::endl;
+            std::cout << "1: Add New Circuit" << std::endl;
+            std::cout << "2: Edit Circuit" << std::endl;
+            std::cout << "3: Show All Circuits" << std::endl;
+            std::cout << "4: Combine Circuits" << std::endl;
+            std::cout << "5: Exit Application" << std::endl;
+
+            std::cin >> _input;
+            try{
+                // Safe, because characters correstponding to 1-5 are system control characters
+                switch(_input){
+                    case 1:
+                        AddCircuit();
+                        break;
+                    case 2:
+                        EditCircuit();
+                        break;
+                    case 3:
+                        ShowAllCircuits();
+                        break;
+                    case 4:
+                        // Exit
+                        CombineCircuits();
+                        break;
+                    case 5:
+                        // Exit
+                        _exit_request = true;
+                        break;
+                }
+                Clear();
+            }
+            catch(char const* error_message){
+                std::cout << "Incorrect input" << std::endl;
+                std::cout << "Error: " << error_message << std::endl;
+            }
+            std::cin.clear();
+            std::cin.ignore();
+        }
+    }
+    
+
+    /**** Outside-Class functions ****/
 
     void Clear(){
         #if defined _WIN32

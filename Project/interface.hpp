@@ -34,7 +34,7 @@ namespace myInterface{
 
     class Interface{
         private:
-            // var
+            // *** variables ***
             Circuit* _current_circuit; // Used to edit circuit inside EditCir() and AddComponent()
             // vvc - "vector vector component" - defined in circuit.hpp
             vvc _current_circuit_objects; // temporary, vvc for selected circuit (currently used)
@@ -43,7 +43,8 @@ namespace myInterface{
             int _x_size_window{1}; // x size of the display
             int _y_size_window{1}; // y size of the display
             bool _exit_request{false}; // fully exit the program if true
-            // functions
+            
+            // *** functions ***
             void EditCir(Circuit* circuit); // Edits given circuit (has interface)
             void AddComponent(); // Inside Circuit related - interface to add a component
             void EditComponent(); // Inside Circuit related - interface to edit a component
@@ -65,8 +66,8 @@ namespace myInterface{
             void UpdateObjects(vvc add_circuit_objects);
         public:
             Interface();
-            void MainMenu(); // Main interface - starting
             ~Interface();
+            void MainMenu(); // Main interface - starting
     };
 
     // Clears terminal. Depending of OS different command is called
