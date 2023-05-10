@@ -25,7 +25,7 @@ namespace myComplex{
         return sqrt(re*re + im*im);
     }
     // return modulus squared of a+ib: |a+ib|^2 = a2+b2
-    double complex::get_modulus2() const{
+    double complex::get_modulus_squared() const{
         return re*re + im*im;
     }
     // return complex conjugate: change sign of imaginary part
@@ -112,7 +112,7 @@ namespace myComplex{
     }
 
     complex operator/(const double a, const complex& z){
-        return complex(a*z.get_real()/z.get_modulus2(), -a*z.get_imaginary()/z.get_modulus2());
+        return complex(a*z.get_real()/z.get_modulus_squared(), -a*z.get_imaginary()/z.get_modulus_squared());
     }
 
     complex operator+(const complex& z1, const complex& z2){

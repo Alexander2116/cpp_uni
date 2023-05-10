@@ -31,7 +31,6 @@ namespace myACCircuit{
         private:
             vvc _circuit_objects; // whole circuit structure
             complex _impedance; // Thevenin impedance of the circuit
-            double _efm;
             static int _id;
             double _frequency{1};
             bool _is_combined = false;
@@ -45,14 +44,13 @@ namespace myACCircuit{
             ~Circuit();
             void SetFrequency(double freq);
             double GetFrequency();
-            void AddSerial(Component* new_component);
-            void AddParallel(std::vector<Component*> new_components);
-            vvc GetObjects();
-            void UpdateObjects(vvc new_objects);
-            double GetEMF();
-            complex GetImpedance();
+            void AddSerial(Component* new_component); // Add a single component in the next block
+            void AddParallel(std::vector<Component*> new_components); // Add a set of components in the next block
+            vvc GetObjects(); // Returns stored objects (_circuit_objects)
+            void UpdateObjects(vvc new_objects); // updates _circuit_objects
+            complex GetImpedance(); // returns _impedance
             void SetImpedance(complex impedance); // Used when creating a combined circuit
-            double GetPhaseDifference();
+            double GetPhaseDifference(); // Gets the phase difference of the current impedance (does not update impedance beforehand)
             void Info();
     };
 

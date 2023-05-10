@@ -5,7 +5,7 @@
 ** Student ID:  10458000
 **
 **
-** Purpose: Storing strings in a matrix form. Usefull for graphical components storage
+** Purpose: Storing strings in a matrix form. Useful for graphical components storage
 **
 ** Classes: StringMatrix(int, int)
 **

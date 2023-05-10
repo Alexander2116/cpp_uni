@@ -84,9 +84,9 @@ namespace myACCircuit{
                 for(Component* component : list_of_components){
                     component->SetFrequency(_frequency);
                     complex a = component->GetImpedance();
-                    temp = temp + a.get_conjugate()*(1/(a.get_modulus2())); // t = 1/z1 + 1/z2 +...
+                    temp = temp + a.get_conjugate()*(1/(a.get_modulus_squared())); // t = 1/z1 + 1/z2 +...
                 }
-                impedance_series.push_back(temp.get_conjugate()*(1/temp.get_modulus2())); // I = 1/t = 1/(1/z1 + 1/z2 +...)
+                impedance_series.push_back(temp.get_conjugate()*(1/temp.get_modulus_squared())); // I = 1/t = 1/(1/z1 + 1/z2 +...)
             }
             else{
                 list_of_components[0]->SetFrequency(_frequency);
@@ -138,9 +138,6 @@ namespace myACCircuit{
         _circuit_objects = new_obj;
     }
 
-    double Circuit::GetEMF(){
-        return _efm;
-    }
 
     complex Circuit::GetImpedance(){
         // Just in case if circuit_objects is empty. complex(0,0) should be returned anyway looking at calc_serial() structure
